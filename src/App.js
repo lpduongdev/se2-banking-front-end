@@ -2,11 +2,10 @@ import "./App.css";
 import {Route, Switch} from "react-router-dom";
 import Header from "./components/Header/Header";
 import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
 import DashboardUser from "./pages/DashboardUser/DashboardUser";
 import {SharedProvider} from "./utils/Context";
 import {useEffect, useState} from "react";
-import {GET_USER_PROFILE, TOKEN} from "./const/key_storage";
+import {USER_INFO, IS_ADMIN, TOKEN} from "./const/key_storage";
 import {
     URL_ADMIN_DASHBOARD,
     URL_DEPOSIT,
@@ -19,35 +18,25 @@ import {
 import {AnimatePresence} from "framer-motion";
 import {useLocation} from "react-router-dom";
 import DashboardAdmin from "./pages/DashboardAdmin/DashboardAdmin";
-import {getUserInfo} from "./api/api_config";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import AntDesignHeader from "./components/AntDesignHeader/AntDesignHeader";
 
 function App() {
     const [isAdmin, setIsAdmin] = useState(false)
     const [token, setToken] = useState(window.localStorage.getItem(TOKEN))
-    const [userInfo, setUserInfo] = useState(window.localStorage.getItem(GET_USER_PROFILE))
+    const [userInfo, setUserInfo] = useState(window.localStorage.getItem(USER_INFO))
 
     const location = useLocation();
 
-    useEffect( () => {
-        if (token) setUserInfo(JSON.stringify(getInfo(token)))
-        if (!token) setUserInfo("")
-        if (userInfo) setIsAdmin(() => {
-            console.log(JSON.parse(userInfo))
-            for (const parseKey of JSON.parse(userInfo).loginAccount.roles) {
-                console.log(parseKey.name)
-                if (parseKey.name === "admin") return true
-            }
-            return false
-        })
-        console.log("Token: " + token + "\nuserInfo: " + userInfo + "\nisAdmin: " + isAdmin)
-
-    }, [token])
-
-    const getInfo = async () => {
-        if (!token) return ""
-        return await getUserInfo(token);
-    }
+    useEffect(async () => {
+        const localToken = window.localStorage.getItem(TOKEN);
+        const localUserInfo = window.localStorage.getItem(USER_INFO)
+        const localIsAdmin = window.localStorage.getItem(IS_ADMIN)
+        console.log("token: " + localToken + "\nUserInfo: " + localUserInfo + "\nisAdmin: " + localIsAdmin)
+        if (localToken) setToken(localToken)
+        if (localUserInfo) setUserInfo(userInfo)
+        if (localIsAdmin) setIsAdmin(localIsAdmin === "true")
+    }, [])
 
     const sharedValue = {
         token: {
@@ -58,14 +47,17 @@ function App() {
             get: userInfo,
             set: setUserInfo
         },
-        isAdmin: isAdmin
+        isAdmin: {
+            get: isAdmin,
+            set: setIsAdmin
+        }
     }
 
     return (
         <SharedProvider value={sharedValue}>
             <AnimatePresence exitBeforeEnter initial={false}>
                 <div className="App">
-                    <Header/>
+                    <AntDesignHeader/>
                     <Switch location={location} key={location.pathname}>
                         <Route exact path={URL_HOME} component={Home}/>
                         <Route exact path={URL_USER_DASHBOARD} component={DashboardUser}/>
@@ -76,7 +68,7 @@ function App() {
                         <Route exact path={URL_WITHDRAW} component={""}/>
                         <Route exact path={URL_SAVING} component={""}/>
                         <Route exact path={URL_LOAN} component={""}/>
-                        <Route path="*"  component={Home}/>
+                        <Route path="*" component={Home}/>
                     </Switch>
                 </div>
             </AnimatePresence>
