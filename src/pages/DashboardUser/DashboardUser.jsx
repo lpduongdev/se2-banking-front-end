@@ -1,18 +1,17 @@
 import "./DashboardUser.css"
-import {NavLink, Redirect} from "react-router-dom";
-import {URL_LOGIN, URL_TRANSFER} from "../../const/routing_address";
+import {NavLink} from "react-router-dom";
+import {URL_HOME, URL_TRANSFER} from "../../const/routing_address";
 import AnimatedPage from "../../utils/AnimatedPage";
 import React, {useContext} from "react";
 import SharedContext from "../../utils/Context";
-import {confirm} from "react-confirm-box";
-import {OK_ONLY} from "../../const/dialog_styling";
+import {useHistory} from "react-router";
 
 const DashboardUser = () => {
-    const {token ,isLogin, isAdmin, userInfo} = useContext(SharedContext)
-
+    const {token, isAdmin, userInfo} = useContext(SharedContext)
+    const history = useHistory()
     return (
         <AnimatedPage>
-            {token.get && userInfo.get &&
+            {token.get && userInfo.get && !isAdmin.get &&
             <div className="container">
                 <div className="functions">
                     <div className="functions-container">
@@ -66,7 +65,7 @@ const DashboardUser = () => {
                     </div>
                 </div>
             </div>}
-            {!token.get && !userInfo.get && confirm("You haven't login, please login first!", OK_ONLY) && <Redirect to={URL_LOGIN}/>}
+            {isAdmin.get && history.push(URL_HOME)}
         </AnimatedPage>
     )
 }

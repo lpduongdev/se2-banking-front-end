@@ -1,5 +1,5 @@
 import "./App.css";
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, useHistory} from "react-router-dom";
 import Header from "./components/Header/Header";
 import Home from "./pages/Home/Home";
 import DashboardUser from "./pages/DashboardUser/DashboardUser";
@@ -25,8 +25,21 @@ function App() {
     const [isAdmin, setIsAdmin] = useState(false)
     const [token, setToken] = useState(window.localStorage.getItem(TOKEN))
     const [userInfo, setUserInfo] = useState(window.localStorage.getItem(USER_INFO))
+    const [isSessionExpired, setIsSessionExpired] = useState(false)
 
+    const history = useHistory();
     const location = useLocation();
+
+    useEffect(() => {
+        if (isSessionExpired) {
+            setToken("")
+            window.localStorage.clear()
+            history.push(URL_HOME)
+            setUserInfo("")
+            setIsAdmin(false)
+        }
+        setIsSessionExpired(false)
+    }, [isSessionExpired])
 
     useEffect(async () => {
         const localToken = window.localStorage.getItem(TOKEN);
@@ -41,15 +54,19 @@ function App() {
     const sharedValue = {
         token: {
             get: token,
-            set: setToken
+            set: setToken,
         },
         userInfo: {
             get: userInfo,
-            set: setUserInfo
+            set: setUserInfo,
         },
         isAdmin: {
             get: isAdmin,
-            set: setIsAdmin
+            set: setIsAdmin,
+        },
+        isSessionExpired: {
+            get: isSessionExpired,
+            set: setIsSessionExpired,
         }
     }
 

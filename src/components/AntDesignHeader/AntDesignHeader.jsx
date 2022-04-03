@@ -43,12 +43,11 @@ const AntDesignHeader = () => {
     );
 
     const onClickLogout = async () => {
-        token.set(null)
+        token.set("")
         window.localStorage.clear()
-
         history.push(URL_HOME)
-        userInfo.set(null)
-
+        userInfo.set("")
+        isAdmin.set(false)
     }
 
     const userMenu = (
