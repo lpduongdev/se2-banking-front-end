@@ -20,6 +20,7 @@ import {useLocation} from "react-router-dom";
 import DashboardAdmin from "./pages/DashboardAdmin/DashboardAdmin";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import AntDesignHeader from "./components/AntDesignHeader/AntDesignHeader";
+import Transfer from "./pages/TransferMoney/Transfer";
 
 function App() {
     const [isAdmin, setIsAdmin] = useState(false)
@@ -31,17 +32,17 @@ function App() {
     const location = useLocation();
 
     useEffect(() => {
-        if (isSessionExpired) {
+        if (isSessionExpired === true) {
             setToken("")
             window.localStorage.clear()
             history.push(URL_HOME)
             setUserInfo("")
             setIsAdmin(false)
+            setIsSessionExpired(false)
         }
-        setIsSessionExpired(false)
     }, [isSessionExpired])
 
-    useEffect(async () => {
+    useEffect( () => {
         const localToken = window.localStorage.getItem(TOKEN);
         const localUserInfo = window.localStorage.getItem(USER_INFO)
         const localIsAdmin = window.localStorage.getItem(IS_ADMIN)
@@ -80,7 +81,7 @@ function App() {
                         <Route exact path={URL_USER_DASHBOARD} component={DashboardUser}/>
                         {!token && !userInfo && <Route exact path={URL_LOGIN} component={LoginPage}/>}
                         <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>
-                        <Route exact path={URL_TRANSFER} component={""}/>
+                        <Route exact path={URL_TRANSFER} component={Transfer}/>
                         <Route exact path={URL_DEPOSIT} component={""}/>
                         <Route exact path={URL_WITHDRAW} component={""}/>
                         <Route exact path={URL_SAVING} component={""}/>

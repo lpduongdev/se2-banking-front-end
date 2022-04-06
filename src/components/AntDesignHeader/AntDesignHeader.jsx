@@ -1,5 +1,5 @@
 import {Header} from "antd/es/layout/layout";
-import {Card, Dropdown, Menu} from "antd";
+import {Card, Dropdown, Image, Menu, Modal} from "antd";
 import {Link, NavLink} from "react-router-dom";
 import {
     URL_ADMIN_DASHBOARD,
@@ -42,12 +42,20 @@ const AntDesignHeader = () => {
         </Menu>
     );
 
-    const onClickLogout = async () => {
-        token.set("")
-        window.localStorage.clear()
-        history.push(URL_HOME)
-        userInfo.set("")
-        isAdmin.set(false)
+
+    const onClickLogout = () => {
+        Modal.confirm({
+            title: "Logout",
+            centered: true,
+            content: "Are you sure want to logout?",
+            onOk: () => {
+                token.set("")
+                window.localStorage.clear()
+                history.push(URL_HOME)
+                userInfo.set("")
+                isAdmin.set(false)
+            }
+        })
     }
 
     const userMenu = (
@@ -66,16 +74,18 @@ const AntDesignHeader = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            alignContent: "center",
             paddingTop: 10,
+            borderBottom: "1px solid #C0C0C0FF",
             paddingBottom: 10,
             position: "fixed",
             top: 0,
             left: 0,
             right: 0,
             zIndex: 1000,
-            height: "auto"
+            height: 70,
         }}>
-            <img src={require("../../assets/images/main-logo.webp")} alt="#"/>
+            <Image preview={false} height={60} src={require("../../assets/images/main-logo.webp")}/>
             <Menu style={{flexGrow: 2, display: "flex", justifyContent: "flex-end", borderBottom: "none"}} mode="horizontal">
                 <Menu.Item key="0">
                     <NavLink exact activeClassName="navbar__tab-active" className="navbar__tab" to="/">Home</NavLink>

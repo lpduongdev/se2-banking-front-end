@@ -25,11 +25,7 @@ const UserList = () => {
     const SORT_TYPE = "id,asc"
 
     useEffect(() => {
-        getPaginationData()
-    }, [])
-
-    useEffect(() => {
-        getPaginationData()
+        getPaginationData().then(r => console.log(r))
     }, [page])
 
     const getPaginationData = async () => {
@@ -42,8 +38,6 @@ const UserList = () => {
             })
             if (!res.ok) return;
             const json = await res.json();
-
-            console.log(json)
             const newUsers = json.data.content.map(e => {
                 e = Object.assign(e, e.user)
                 delete e.user
@@ -343,11 +337,7 @@ const UserList = () => {
                             })
                         }
                         await getPaginationData()
-                    }}
-                    onFinishFailed={() => {
-                    }}
-                    autoComplete="off"
-                >
+                    }}>
                     <Form.Item
                         label="First name:"
                         name="firstName"

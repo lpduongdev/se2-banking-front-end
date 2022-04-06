@@ -1,48 +1,10 @@
 .banner {
-  padding-top: 12.5%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("https://img.freepik.com/free-vector/stylish-glowing-digital-red-lines-banner_1017-23964.jpg?t=st=1647343365~exp=1647343965~hmac=9d8577061bc3b31bc9a114ae281b445c7daf21174d19524343c472eb3d7fe269&w=900");
+  padding-top: 10%;
   height: auto;
-  background-size: cover; /* <------ */
-  background-repeat: no-repeat;
-  background-position: center center;
-  position: relative;
+  width: 100%;
   display: flex;
-  padding-bottom: 20px;
-  justify-content: space-around;
-}
-
-.banner__text {
-  color: white;
-  max-width: 50%;
-  line-height: 1.8;
-}
-
-.banner__text button {
-  font-size: 20px;
-  display: inline-block;
-  background: rgba(0, 0, 0, 0);
-  border: 3px solid white;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 300;
-  margin-top: 30px;
-}
-
-.banner__text button:hover {
-  background-color: white;
-  color: #33cccc;
-}
-
-.banner__image {
-  width: 20%;
-  height: 20%;
-  margin-right: 10%;
-}
-
-.functions {
-  margin-top: 5%;
-  text-align: center;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
 }
