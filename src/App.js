@@ -22,12 +22,14 @@ import NavigationHeader from "./components/NavigationHeader/NavigationHeader";
 import Transfer from "./pages/Functions/Transfer/Transfer";
 import Deposit from "./pages/Functions/Deposit/Deposit";
 import Withdraw from "./pages/Functions/Withdraw/Withdraw";
+import FunctionsCard from "./pages/Functions/FunctionsCard";
 
 function App() {
     const [isAdmin, setIsAdmin] = useState(false)
     const [token, setToken] = useState(window.localStorage.getItem(TOKEN))
     const [userInfo, setUserInfo] = useState(window.localStorage.getItem(USER_INFO))
     const [isSessionExpired, setIsSessionExpired] = useState(false)
+    const [showHeader, setShowHeader] = useState(true)
 
     const history = useHistory();
     const location = useLocation();
@@ -69,6 +71,10 @@ function App() {
         isSessionExpired: {
             get: isSessionExpired,
             set: setIsSessionExpired,
+        },
+        showHeader: {
+            get: showHeader,
+            set: setShowHeader,
         }
     }
 
@@ -76,17 +82,17 @@ function App() {
         <SharedProvider value={sharedValue}>
             <AnimatePresence exitBeforeEnter initial={false}>
                 <div className="App">
-                    <NavigationHeader/>
+                    {showHeader && <NavigationHeader/>}
                     <Switch location={location} key={location.pathname}>
                         <Route exact path={URL_HOME} component={Home}/>
                         <Route exact path={URL_USER_DASHBOARD} component={DashboardUser}/>
                         {!token && !userInfo && <Route exact path={URL_LOGIN} component={LoginPage}/>}
-                        <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>
-                        <Route exact path={URL_TRANSFER} component={Transfer}/>
-                        <Route exact path={URL_DEPOSIT} component={Deposit}/>
-                        <Route exact path={URL_WITHDRAW} component={Withdraw}/>
-                        <Route exact path={URL_SAVING} component={""}/>
-                        <Route exact path={URL_LOAN} component={""}/>
+                        {token && userInfo && <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>}
+                        {token && userInfo && <Route exact path={URL_TRANSFER} component={FunctionsCard}/>}
+                        {token && userInfo && <Route exact path={URL_DEPOSIT} component={FunctionsCard}/>}
+                        {token && userInfo && <Route exact path={URL_WITHDRAW} component={FunctionsCard}/>}
+                        {token && userInfo && <Route exact path={URL_SAVING} component={FunctionsCard}/>}
+                        {token && userInfo && <Route exact path={URL_LOAN} component={FunctionsCard}/>}
                         <Route path="*" component={Home}/>
                     </Switch>
                 </div>

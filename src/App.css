@@ -19,3 +19,10 @@ html {
 .App .ant-card {
   border-radius: 20px;
 }
+
+
+.ant-input ,.ant-input-affix-wrapper{
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: 300px;
+}

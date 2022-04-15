@@ -17,9 +17,6 @@ import {
 } from "@ant-design/icons";
 import {URL_ADMIN_DASHBOARD, URL_DEPOSIT, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
 import {uploadImage} from "../../utils/ImageProcessor";
-import Transfer from "../Functions/Transfer/Transfer";
-import Deposit from "../Functions/Deposit/Deposit";
-import Withdraw from "../Functions/Withdraw/Withdraw";
 
 const DashboardUser = () => {
     const {userInfo, isAdmin, isSessionExpired} = useContext(SharedContext)

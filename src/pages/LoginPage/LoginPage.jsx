@@ -2,14 +2,10 @@ import "./LoginPage.css"
 import React, {useContext, useEffect, useState} from "react";
 import AnimatedPage from "../../utils/AnimatedPage"
 import SharedContext from "../../utils/Context";
-import {confirm} from "react-confirm-box";
-import {OK_CANCEL, OK_ONLY} from "../../const/dialog_styling";
 import {URL_ADMIN_DASHBOARD, URL_USER_DASHBOARD} from "../../const/routing_address";
-import {TXT_LOGIN} from "../../const/string_storage";
 import {
     getUserInfo,
     login,
-    registerUser,
     registerAdmin,
     setBalance,
     updateUserInfo,
@@ -17,16 +13,21 @@ import {
 } from "../../api/api_config";
 import {USER_INFO, IS_ADMIN, TOKEN} from "../../const/key_storage";
 import {useHistory} from "react-router";
-import {Button, Form, Input, InputNumber, Modal} from "antd";
+import {Button, Card, Form, Image, Input, InputNumber, Modal} from "antd";
 
 
 const LoginPage = () => {
-    const {isAdmin, token, userInfo} = useContext(SharedContext)
+    const {isAdmin, token, userInfo, showHeader} = useContext(SharedContext)
     const [isLoading, setIsLoading] = useState(false)
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
 
     const history = useHistory();
+
+    useEffect(() => {
+        if (showHeader.get) showHeader.set(false)
+        return () => showHeader.set(true)
+    }, [])
 
     const checkValid = () => {
 
@@ -51,8 +52,7 @@ const LoginPage = () => {
         return true
     }
 
-    const handleLogin = async (event) => {
-        event.preventDefault();
+    const handleLogin = async () => {
         setIsLoading(true)
 
         if (!checkValid()) {
@@ -160,6 +160,7 @@ const LoginPage = () => {
     }
 
     const onRegisterForm = async () => {
+        showHeader.set(false)
         let data = {
             phoneNumber: "",
             balance: "",
@@ -265,7 +266,7 @@ const LoginPage = () => {
                         name="phoneNumber"
                         initialValue={data.phoneNumber}
                         rules={[{required: true, message: 'Please input your phone number!'}]}>
-                        <Input onChange={(e) => data.phoneNumber = e.currentTarget.value}/>
+                        <Input autoComplete={"account"} onChange={(e) => data.phoneNumber = e.currentTarget.value}/>
                     </Form.Item>
 
                     <Form.Item
@@ -273,14 +274,14 @@ const LoginPage = () => {
                         name="balance"
                         initialValue={data.balance}
                         rules={[{required: true, message: 'Please input your balance!'}]}>
-                        <InputNumber onChange={(e) => data.balance = e}/>
+                        <InputNumber autoComplete={"balance"} onChange={(e) => data.balance = e}/>
                     </Form.Item>
                     <Form.Item
                         label="Password:"
                         name="password"
                         initialValue={data.email}
                         rules={[{required: true, message: 'Please input your password!'}]}>
-                        <Input.Password
+                        <Input.Password autoComplete={"password"}
                             onChange={(e) => data.password = e.currentTarget.value}/>
                     </Form.Item>
                     <Form.Item
@@ -288,14 +289,14 @@ const LoginPage = () => {
                         name="passwordConfirm"
                         initialValue={data.passwordConfirm}
                         rules={[{required: true, message: 'Please input your password confirm!'}]}>
-                        <Input.Password onChange={(e) => data.passwordConfirm = e.currentTarget.value}/>
+                        <Input.Password autoComplete={"passwordConfirm"} onChange={(e) => data.passwordConfirm = e.currentTarget.value}/>
                     </Form.Item>
                     <Form.Item
                         label="Administration Code:"
                         name="code"
                         initialValue={data.code}
                         rules={[{required: true, message: 'Please input your admin code!'}]}>
-                        <Input onChange={(e) => data.code = e.currentTarget.value}/>
+                        <Input autoComplete={"adminCode"} onChange={(e) => data.code = e.currentTarget.value}/>
                     </Form.Item>
                     <Form.Item
                         label="First name:"
@@ -340,7 +341,8 @@ const LoginPage = () => {
                         <Button loading={isSubmitting} size={"large"} type="primary" htmlType="submit">
                             Submit
                         </Button>
-                        <Button style={{marginLeft: 50}} size={"large"} htmlType="button" onClick={() => Modal.destroyAll()}>
+                        <Button style={{marginLeft: 50}} size={"large"} htmlType="button"
+                                onClick={() => Modal.destroyAll()}>
                             Cancel
                         </Button>
                     </Form.Item>
@@ -350,45 +352,36 @@ const LoginPage = () => {
 
     return (
         <AnimatedPage>
-            <section>
-                <div className="img-bg">
-                    <img
-                        src={require("../../assets/images/login/login_poster.jpg")}
-                        alt="#"/>
-                </div>
-                <div className="content">
-                    <div className="form">
-                        <h2>LOGIN</h2>
-                        <form action="">
-                            <div className="input-form">
-                                <span className="test">Phone number:</span>
-                                <input disabled={isLoading} type="text" value={phone}
-                                       onChange={(e) => setPhone(e.currentTarget.value)}/>
-                            </div>
-                            <div className="input-form">
-                                <span>Password:</span>
-                                <input disabled={isLoading} autoComplete="" type="password"
-                                       value={password}
-                                       onChange={(e) => setPassword(e.currentTarget.value)}/>
-                            </div>
-                        </form>
-                    </div>
-                    <div className="input-form">
-                        <Button
-                            shape={"round"}
-                            type={"primary"}
-                            size={"large"}
-                            onClick={handleLogin}
-                            onKeyDown={handleLogin}
-                            loading={isLoading}>
-                            Login
-                        </Button>
-                    </div>
-                    <div>
-                        <p>Doesn't have account? <a onClick={onRegisterForm}>Register here</a></p>
-                    </div>
-                </div>
-            </section>
+            <div className="base-login" style={{display: "flex", justifyContent: "center"}}>
+                <Card
+                    title="Login"
+                    style={{width: 500, height: "fit-content"}}
+                    headStyle={{fontWeight: "bold", fontSize: "2rem", textAlign: "center"}}
+                    bodyStyle={{display: "flex", flexDirection: "row", padding: "20px 40px", justifyContent: "center"}}
+                    className="card">
+                    <Form
+                        className={"form-login"}
+                        onFinish={handleLogin}>
+                        <Form.Item
+                            rules={[{required: true, message: 'Please enter phone number!'}]}>
+                            <h3>Phone number:</h3>
+                            <Input autoComplete="Phone" value={phone} onChange={(e) => {
+                                setPhone(e.currentTarget.value)
+                            }}/>
+                        </Form.Item>
+                        <Form.Item
+                            rules={[{required: true, message: 'Please enter password!'}]}>
+                            <h3>Password:</h3>
+                            <Input.Password autoComplete="Password" value={password} onChange={(e) => {
+                                setPassword(e.currentTarget.value)
+                            }}/>
+                        </Form.Item>
+                        <Button type={"primary"} size={"large"} style={{textAlign: "center"}} loading={isLoading}
+                                htmlType="submit">Login</Button>
+                        <p style={{marginTop: 20}}>Haven't got account? <a onClick={onRegisterForm}>Register now</a></p>
+                    </Form>
+                </Card>
+            </div>
         </AnimatedPage>
     )
 }
