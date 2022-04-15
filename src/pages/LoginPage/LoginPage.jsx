@@ -365,14 +365,14 @@ const LoginPage = () => {
                         <Form.Item
                             rules={[{required: true, message: 'Please enter phone number!'}]}>
                             <h3>Phone number:</h3>
-                            <Input autoComplete="Phone" value={phone} onChange={(e) => {
+                            <Input disabled={isLoading} autoComplete="Phone" value={phone} onChange={(e) => {
                                 setPhone(e.currentTarget.value)
                             }}/>
                         </Form.Item>
                         <Form.Item
                             rules={[{required: true, message: 'Please enter password!'}]}>
                             <h3>Password:</h3>
-                            <Input.Password autoComplete="Password" value={password} onChange={(e) => {
+                            <Input.Password disabled={isLoading} autoComplete="Password" value={password} onChange={(e) => {
                                 setPassword(e.currentTarget.value)
                             }}/>
                         </Form.Item>
