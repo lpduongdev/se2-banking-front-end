@@ -5,7 +5,7 @@ import React, {useContext, useState} from "react";
 import SharedContext from "../../utils/Context";
 import {USER_INFO} from "../../const/key_storage";
 import {Avatar, Button, Card, Col, Form, Input, Modal, Row, Upload} from "antd";
-import {changeAvatar, changePassword, getUserInfo} from "../../api/api_config";
+import {changePassword, getUserInfo} from "../../api/api_config";
 import ImgCrop from "antd-img-crop";
 import {
     BankFilled,
@@ -15,40 +15,33 @@ import {
     UploadOutlined,
     WalletFilled
 } from "@ant-design/icons";
-import Resizer from "react-image-file-resizer";
-import {URL_ADMIN_DASHBOARD} from "../../const/routing_address";
+import {URL_ADMIN_DASHBOARD, URL_DEPOSIT, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
+import {uploadImage} from "../../utils/ImageProcessor";
+import Transfer from "../Functions/Transfer/Transfer";
+import Deposit from "../Functions/Deposit/Deposit";
+import Withdraw from "../Functions/Withdraw/Withdraw";
 
 const DashboardUser = () => {
-    const {userInfo, isAdmin} = useContext(SharedContext)
+    const {userInfo, isAdmin, isSessionExpired} = useContext(SharedContext)
     const history = useHistory()
     const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 
-    const uploadImage = async (options) => {
-        const {file} = options;
+    const onUploadImage = async (options) => {
         setIsUploadingAvatar(true)
-        let formData = new FormData();
-        const newImage = await getResizedImage(file)
-        formData.append('avatar', newImage);
+        try {
+            await uploadImage(options)
+        } catch (TypeError) {
+            Modal.error({
+                title: "Expired session", onOk: () => {
+                    isSessionExpired.set(true)
+                },
+            })
+        } finally {
+            userInfo.set((await (await getUserInfo()).json()).data)
+            setIsUploadingAvatar(false)
+        }
 
-        const res = await changeAvatar({
-            data: formData,
-        })
-        if (!res.ok)
-            Modal.error({title: "Can't upload your file!"})
-        const updatedUserData = await getUserInfo()
-        if (!updatedUserData.ok) return
-        const updatedJson = await updatedUserData.json()
-        await window.localStorage.setItem(USER_INFO, JSON.stringify(updatedJson.data))
-        await userInfo.set(JSON.stringify(updatedJson.data))
-        setIsUploadingAvatar(false)
-    };
-
-    const getResizedImage = (file) => new Promise(resolve => {
-        Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
-            uri => {
-                resolve(uri);
-            }, 'file');
-    });
+    }
 
     return (
         <AnimatedPage>
@@ -79,7 +72,7 @@ const DashboardUser = () => {
                                         }
                                         let isSubmitting = false
                                         Modal.info({
-                                            title: "Adjust balance",
+                                            title: "Change account password",
                                             centered: true,
                                             width: 600,
                                             icon: <div/>,
@@ -113,6 +106,7 @@ const DashboardUser = () => {
                                                             if (json.status === 0)
                                                                 Modal.success({
                                                                     title: "Change password successfully",
+                                                                    onOk: () => Modal.destroyAll()
                                                                 })
                                                         }
                                                     }}
@@ -156,42 +150,49 @@ const DashboardUser = () => {
                                 <Upload
                                     multiple={false}
                                     showUploadList={false}
-                                    customRequest={uploadImage}>
+                                    customRequest={onUploadImage}>
                                     <Button loading={isUploadingAvatar} type={"primary"} icon={<UploadOutlined/>}>Change
                                         avatar</Button>
                                 </Upload>
                             </ImgCrop>
                         </div>
                     </div>
-                </Card>
-                <Card style={{display: "flex", flexDirection: "row", justifyContent: "center", alignContent: "center"}}>
-                    <Row >
-                        <Col>
-                            <Button className="btn-item" size={"large"}><DollarCircleFilled/> Transfer</Button>
-                        </Col>
-                        <Col >
-                            <Button className="btn-item" size={"large"}><RedEnvelopeFilled/> Deposit Money</Button>
+                    <Card style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignContent: "center"
+                    }}>
+                        <Row className="menu">
+                            <Col>
+                                <Button className="btn-item" onClick={() => history.push(URL_TRANSFER)}
+                                        size={"large"}><DollarCircleFilled/> Transfer</Button>
+                            </Col>
+                            <Col>
+                                <Button className="btn-item" onClick={() => history.push(URL_DEPOSIT)}
+                                        size={"large"}><RedEnvelopeFilled/> Deposit Money</Button>
+                            </Col>
+                            <Col>
+                                <Button className="btn-item" onClick={() => history.push(URL_WITHDRAW)}
+                                        size={"large"}><MoneyCollectFilled/> Withdraw Money</Button>
+                            </Col>
+                        </Row>
+                        <Row className="menu">
+                            <Col>
+                                <Button className="btn-item" size={"large"}><WalletFilled/> Money Saving</Button>
 
-                        </Col>
-                        <Col>
-                            <Button className="btn-item" size={"large"}><MoneyCollectFilled/> Withdraw Money</Button>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Button className="btn-item" size={"large"}><WalletFilled/> Money Saving</Button>
+                            </Col>
+                            <Col>
+                                <Button className="btn-item" size={"large"}><BankFilled/> Money Loan</Button>
 
-                        </Col>
-                        <Col>
-                            <Button className="btn-item" size={"large"}><BankFilled/> Money Loan</Button>
+                            </Col>
+                            <Col>
+                                <Button className="btn-item" size={"large"}><InteractionFilled/> Transaction
+                                    History</Button>
 
-                        </Col>
-                        <Col>
-                            <Button className="btn-item" size={"large"}><InteractionFilled/> Transaction History</Button>
-
-                        </Col>
-                    </Row>
-
+                            </Col>
+                        </Row>
+                    </Card>
                 </Card>
             </div>
             }

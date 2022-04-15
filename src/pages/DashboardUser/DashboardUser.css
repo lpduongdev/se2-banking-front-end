@@ -44,8 +44,9 @@
   height: 128px;
 }
 
-.btn-item {
+.menu .ant-col button {
   width: 200px;
   height: 100px;
   margin: 20px;
 }
+

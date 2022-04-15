@@ -1,6 +1,5 @@
 import "./App.css";
 import {Route, Switch, useHistory} from "react-router-dom";
-import Header from "./components/Header/Header";
 import Home from "./pages/Home/Home";
 import DashboardUser from "./pages/DashboardUser/DashboardUser";
 import {SharedProvider} from "./utils/Context";
@@ -19,8 +18,10 @@ import {AnimatePresence} from "framer-motion";
 import {useLocation} from "react-router-dom";
 import DashboardAdmin from "./pages/DashboardAdmin/DashboardAdmin";
 import LoginPage from "./pages/LoginPage/LoginPage";
-import AntDesignHeader from "./components/AntDesignHeader/AntDesignHeader";
-import Transfer from "./pages/TransferMoney/Transfer";
+import NavigationHeader from "./components/NavigationHeader/NavigationHeader";
+import Transfer from "./pages/Functions/Transfer/Transfer";
+import Deposit from "./pages/Functions/Deposit/Deposit";
+import Withdraw from "./pages/Functions/Withdraw/Withdraw";
 
 function App() {
     const [isAdmin, setIsAdmin] = useState(false)
@@ -75,15 +76,15 @@ function App() {
         <SharedProvider value={sharedValue}>
             <AnimatePresence exitBeforeEnter initial={false}>
                 <div className="App">
-                    <AntDesignHeader/>
+                    <NavigationHeader/>
                     <Switch location={location} key={location.pathname}>
                         <Route exact path={URL_HOME} component={Home}/>
                         <Route exact path={URL_USER_DASHBOARD} component={DashboardUser}/>
                         {!token && !userInfo && <Route exact path={URL_LOGIN} component={LoginPage}/>}
                         <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>
                         <Route exact path={URL_TRANSFER} component={Transfer}/>
-                        <Route exact path={URL_DEPOSIT} component={""}/>
-                        <Route exact path={URL_WITHDRAW} component={""}/>
+                        <Route exact path={URL_DEPOSIT} component={Deposit}/>
+                        <Route exact path={URL_WITHDRAW} component={Withdraw}/>
                         <Route exact path={URL_SAVING} component={""}/>
                         <Route exact path={URL_LOAN} component={""}/>
                         <Route path="*" component={Home}/>

@@ -19,7 +19,7 @@ import {useHistory} from "react-router";
 import {CaretDownFilled} from "@ant-design/icons"
 import {USER_INFO} from "../../const/key_storage";
 
-const AntDesignHeader = () => {
+const NavigationHeader = () => {
     const {token, userInfo, isAdmin} = useContext(SharedContext)
     const history = useHistory()
     const menu = (
@@ -122,4 +122,4 @@ const AntDesignHeader = () => {
     )
 }
 
-export default AntDesignHeader
+export default NavigationHeader

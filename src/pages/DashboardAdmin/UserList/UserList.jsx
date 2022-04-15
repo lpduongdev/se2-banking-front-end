@@ -434,7 +434,7 @@ const UserList = () => {
 
     return (
         <AnimatedPage>
-            <Card headStyle={{textAlign: "center"}} title="User list" bordered={false} style={{width: "100%"}}>
+            <Card headStyle={{textAlign: "center", fontWeight: "bold"}} title="User list" bordered={false} style={{width: "100%"}}>
                 <Button shape={['round']} style={{marginBottom: 30}} type="primary" onClick={onAddUser}>Add new
                     user</Button>
                 <Table

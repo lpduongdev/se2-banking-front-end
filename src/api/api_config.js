@@ -25,7 +25,7 @@ export const registerUser = async (object) => await fetch(`${BASE_URL}/auth/crea
 
 export const registerAdmin = async (object) => await fetch(`${BASE_URL}/auth/create`, {
     method: "POST",
-    headers: {"Content-Type": "application/json", "Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
         phoneNumber: object.phoneNumber,
         password: object.password,
@@ -34,10 +34,10 @@ export const registerAdmin = async (object) => await fetch(`${BASE_URL}/auth/cre
 })
 
 export const isTokenExpired = async () => {
-    return (await fetch(`${BASE_URL}/user/ping`, {
+    return await fetch(`${BASE_URL}/user/ping`, {
         method: "GET",
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
-    })).json();
+    })
 }
 
 export const getUserInfo = async () => await fetch(`${BASE_URL}/user/me`, {
@@ -93,3 +93,32 @@ export const changeAvatar = async (object) =>
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
         body: object.data,
     })
+
+export const depositMoney = async (object) =>
+    await fetch(`${BASE_URL}/transaction/deposit`, {
+        method: "POST",
+        headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
+        body: object.formData,
+    })
+
+export const withdrawMoney = async (object) =>
+    await fetch(`${BASE_URL}/transaction/withdraw`, {
+        method: "POST",
+        headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
+        body: object.formData,
+    })
+
+export const transferMoney = async (object) =>
+    await fetch(`${BASE_URL}/transaction/transfer`, {
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${window.localStorage.getItem(TOKEN)}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "amount": object.amount,
+                "toAccount": object.toAccount
+            })
+        }
+    )
+

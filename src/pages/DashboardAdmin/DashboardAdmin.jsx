@@ -7,15 +7,15 @@ import SharedContext from "../../utils/Context";
 import {IS_ADMIN, USER_INFO} from "../../const/key_storage";
 import UserList from "./UserList/UserList";
 import {Avatar, Button, Card, Form, Input, Modal, Upload, Spin} from "antd";
-import {changeAvatar, changePassword, getUserInfo} from "../../api/api_config";
+import {changePassword, getUserInfo} from "../../api/api_config";
 import ImgCrop from "antd-img-crop";
 import {UploadOutlined} from "@ant-design/icons";
-import Resizer from "react-image-file-resizer";
+import {uploadImage} from "../../utils/ImageProcessor";
 
 const DashboardUser = () => {
     const USER_LIST = 0;
     const RATE_ADJUSTMENT = 1;
-    const {userInfo, isAdmin} = useContext(SharedContext)
+    const {userInfo, isAdmin, isSessionExpired} = useContext(SharedContext)
     const history = useHistory()
     const [showUserList, setShowUserList] = useState(false);
     const [showRateAdjustment, setShowRateAdjustment] = useState(false);
@@ -25,33 +25,22 @@ const DashboardUser = () => {
         setShowUserList(type === USER_LIST)
         setShowRateAdjustment(type === RATE_ADJUSTMENT)
     }
-
-    const uploadImage = async (options) => {
-        const { file} = options;
+    const onUploadImage = async (options) => {
         setIsUploadingAvatar(true)
-        let formData = new FormData();
-        const newImage = await getResizedImage(file)
-        formData.append('avatar', newImage);
+        try {
+            await uploadImage(options)
+        } catch (TypeError) {
+            Modal.error({
+                title: "Expired session", onOk: () => {
+                    isSessionExpired.set(true)
+                },
+            })
+        } finally {
+            userInfo.set((await (await getUserInfo()).json()).data)
+            setIsUploadingAvatar(false)
+        }
 
-        const res = await changeAvatar({
-            data: formData,
-        })
-        if (!res.ok)
-            Modal.error({title: "Can't upload your file!"})
-        const updatedUserData = await getUserInfo()
-        if (!updatedUserData.ok) return
-        const updatedJson = await updatedUserData.json()
-        await window.localStorage.setItem(USER_INFO, JSON.stringify(updatedJson.data))
-        await userInfo.set(JSON.stringify(updatedJson.data))
-        setIsUploadingAvatar(false)
-    };
-
-    const getResizedImage = (file) => new Promise(resolve => {
-        Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0,
-            uri => {
-                resolve(uri);
-            }, 'file');
-    });
+    }
 
     return (
         <AnimatedPage>
@@ -160,17 +149,17 @@ const DashboardUser = () => {
                                 <Upload
                                     multiple={false}
                                     showUploadList={false}
-                                    customRequest={uploadImage}>
+                                    customRequest={onUploadImage}>
                                     <Button loading={isUploadingAvatar} type={"primary"} icon={<UploadOutlined/>}>Change avatar</Button>
                                 </Upload>
                             </ImgCrop>
                         </div>
                     </div>
+                    <div className="user-list">
+                        {showUserList && <UserList/>}
+                    </div>
                 </Card>
                 }
-                <div className="user-list">
-                    {showUserList && <UserList/>}
-                </div>
                 {!(window.localStorage.getItem(IS_ADMIN) === "true") && history.push(URL_HOME)}
             </div>
         </AnimatedPage>
