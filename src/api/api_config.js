@@ -122,3 +122,42 @@ export const transferMoney = async (object) =>
         }
     )
 
+export const createInterest = async (object) =>
+    await fetch(`${BASE_URL}/interest/create`, {
+        method: "POST",
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem(TOKEN)}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "rate": object.rate,
+            "instantRate": object.instantRate,
+            "duration": object.duration,
+            "type": object.type,
+        })
+    })
+
+
+export const getPageableInterest = async (object) =>
+    await fetch(`${BASE_URL}/interest?page=${object.page}&size=${object.size}&sort=${object.sort}`, {
+        method: "GET",
+        headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
+    })
+
+
+export const deleteInterestRate = async (id) =>
+    await fetch(`${BASE_URL}/interest/${id}`, {
+        method: "DELETE",
+        headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
+    })
+
+export const updateInterestRate = async (object) => await fetch(`${BASE_URL}/interest/${object.id}`, {
+    method: "PUT",
+    headers: {"Content-Type": "application/json", "Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
+    body: JSON.stringify({
+        rate: object.rate,
+        instantRate: object.instantRate,
+        duration: object.duration,
+        type: object.type,
+    })
+})

@@ -267,12 +267,14 @@ const UserList = () => {
                         <Input onChange={(e) => data.address = e.currentTarget.value}/>
                     </Form.Item>
                     <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                        <Button loading={isSubmitting} type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                        <Button style={{marginLeft: 50}} htmlType="button" onClick={() => Modal.destroyAll()}>
-                            Cancel
-                        </Button>
+                        <div style={{display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
+                            <Button loading={isSubmitting} type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                            <Button style={{marginLeft: 50}} htmlType="button" onClick={() => Modal.destroyAll()}>
+                                Cancel
+                            </Button>
+                        </div>
                     </Form.Item>
                 </Form>),
         })
@@ -314,7 +316,9 @@ const UserList = () => {
         let inputData = record
         Modal.info({
             title: "Edit info",
+            width: 600,
             icon: <div/>,
+            centered: true,
             content: (
                 <Form
                     labelCol={{span: 8}}
@@ -370,12 +374,14 @@ const UserList = () => {
                         <Input onChange={(e) => inputData.address = e.currentTarget.value}/>
                     </Form.Item>
                     <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                        <Button type="primary" htmlType="submit">
-                            Update
-                        </Button>
-                        <Button style={{marginLeft: 50}} htmlType="button" onClick={() => Modal.destroyAll()}>
-                            Cancel
-                        </Button>
+                        <div style={{display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
+                            <Button type="primary" htmlType="submit">
+                                Update
+                            </Button>
+                            <Button style={{marginLeft: 50}} htmlType="button" onClick={() => Modal.destroyAll()}>
+                                Cancel
+                            </Button>
+                        </div>
                     </Form.Item>
                 </Form>),
             okButtonProps: {style: {display: "none"}}
@@ -386,6 +392,9 @@ const UserList = () => {
         let balance = record.balance
         Modal.confirm({
             title: "Adjust balance",
+            width: 600,
+            icon: <div/>,
+            centered: true,
             content: (
                 <Form
                     name="basic"

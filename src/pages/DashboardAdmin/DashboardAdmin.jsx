@@ -11,6 +11,7 @@ import {changePassword, getUserInfo} from "../../api/api_config";
 import ImgCrop from "antd-img-crop";
 import {UploadOutlined} from "@ant-design/icons";
 import {uploadImage} from "../../utils/ImageProcessor";
+import InterestManagement from "./InterestManagement/InterestManagement";
 
 const DashboardUser = () => {
     const USER_LIST = 0;
@@ -157,6 +158,7 @@ const DashboardUser = () => {
                     </div>
                     <div className="user-list">
                         {showUserList && <UserList/>}
+                        {showRateAdjustment && <InterestManagement/>}
                     </div>
                 </Card>
                 }

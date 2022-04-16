@@ -31,7 +31,9 @@ body .ant-btn {
 
 body .ant-modal-confirm-btns {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 body .ant-input , body .ant-input-affix-wrapper, body .ant-input-number{
@@ -42,4 +44,16 @@ body .ant-input , body .ant-input-affix-wrapper, body .ant-input-number{
 
 body .ant-modal-content {
   border-radius: 15px;
+}
+
+body .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  background: #1890ff;
+  color: white;
+
+}
+
+
+body .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+  background: #4795dc;
+  color: white;
 }
