@@ -15,8 +15,10 @@ import {
     RedEnvelopeFilled,
     WalletFilled
 } from "@ant-design/icons";
+import SharedContext from "../../utils/Context";
 
 const FunctionsCard = () => {
+    const {userInfo} = useContext(SharedContext)
     const history = useHistory()
     const [functionType, setFunctionType] = useState(history.location.pathname)
 
@@ -35,22 +37,22 @@ const FunctionsCard = () => {
                             <p>{JSON.parse(window.localStorage.getItem(USER_INFO)).balance} VND</p>
                         </div>
                     </div>
-                    {functionType === URL_TRANSFER && <Transfer/>}
-                    {functionType === URL_DEPOSIT && <Deposit/>}
-                    {functionType === URL_WITHDRAW && <Withdraw/>}
+                    {functionType === URL_TRANSFER && <Transfer object={userInfo}/>}
+                    {functionType === URL_DEPOSIT && <Deposit object={userInfo}/>}
+                    {functionType === URL_WITHDRAW && <Withdraw object={userInfo}/>}
                 </Card>
-                <div style={{paddingTop: 30}}>
+                <div style={{paddingTop: 30, paddingBottom: 30, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
                     <Row className="menu">
                         <Col>
-                            <Button className="btn-item" onClick={() => history.push(URL_TRANSFER)}
+                            <Button className="btn-item" onClick={() => setFunctionType(URL_TRANSFER)}
                                     size={"large"}><DollarCircleFilled/> Transfer</Button>
                         </Col>
                         <Col>
-                            <Button className="btn-item" onClick={() => history.push(URL_DEPOSIT)}
+                            <Button className="btn-item" onClick={() => setFunctionType(URL_DEPOSIT)}
                                     size={"large"}><RedEnvelopeFilled/> Deposit Money</Button>
                         </Col>
                         <Col>
-                            <Button className="btn-item" onClick={() => history.push(URL_WITHDRAW)}
+                            <Button className="btn-item" onClick={() => setFunctionType(URL_WITHDRAW)}
                                     size={"large"}><MoneyCollectFilled/> Withdraw Money</Button>
                         </Col>
                         <Col>

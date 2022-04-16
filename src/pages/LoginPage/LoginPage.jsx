@@ -378,7 +378,7 @@ const LoginPage = () => {
                         </Form.Item>
                         <Button type={"primary"} size={"large"} style={{textAlign: "center"}} loading={isLoading}
                                 htmlType="submit">Login</Button>
-                        <p style={{marginTop: 20}}>Haven't got account? <a onClick={onRegisterForm}>Register now</a></p>
+                        <p style={{marginTop: 20}}>Haven't got account? <a disabled={isLoading} onClick={isLoading? () => {} :  onRegisterForm}>Register now</a></p>
                     </Form>
                 </Card>
             </div>

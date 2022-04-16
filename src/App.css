@@ -16,13 +16,30 @@ html {
   background-color: #f5f5f5;
 }
 
-.App .ant-card {
+body .ant-card {
   border-radius: 20px;
 }
 
+body .ant-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 15px 20px;
+}
 
-.ant-input ,.ant-input-affix-wrapper{
+body .ant-modal-confirm-btns {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+body .ant-input , body .ant-input-affix-wrapper, body .ant-input-number{
   border-radius: 10px;
   padding: 10px 20px;
   width: 300px;
+}
+
+body .ant-modal-content {
+  border-radius: 15px;
 }

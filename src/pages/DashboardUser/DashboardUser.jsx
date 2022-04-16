@@ -17,6 +17,9 @@ import {
 } from "@ant-design/icons";
 import {URL_ADMIN_DASHBOARD, URL_DEPOSIT, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
 import {uploadImage} from "../../utils/ImageProcessor";
+import Transfer from "../Functions/Transfer/Transfer";
+import Deposit from "../Functions/Deposit/Deposit";
+import Withdraw from "../Functions/Withdraw/Withdraw";
 
 const DashboardUser = () => {
     const {userInfo, isAdmin, isSessionExpired} = useContext(SharedContext)
@@ -162,15 +165,30 @@ const DashboardUser = () => {
                     }}>
                         <Row className="menu">
                             <Col>
-                                <Button className="btn-item" onClick={() => history.push(URL_TRANSFER)}
+                                <Button className="btn-item" onClick={() => Modal.info({
+                                    icon: <div/>,
+                                    okButtonProps: {style: {display: "none"}},
+                                    closable: true,
+                                    content: (<Transfer object={userInfo}/>)
+                                })}
                                         size={"large"}><DollarCircleFilled/> Transfer</Button>
                             </Col>
                             <Col>
-                                <Button className="btn-item" onClick={() => history.push(URL_DEPOSIT)}
+                                <Button className="btn-item" onClick={() => Modal.info({
+                                    icon: <div/>,
+                                    okButtonProps: {style: {display: "none"}},
+                                    closable: true,
+                                    content: (<Deposit object={userInfo}/>)
+                                })}
                                         size={"large"}><RedEnvelopeFilled/> Deposit Money</Button>
                             </Col>
                             <Col>
-                                <Button className="btn-item" onClick={() => history.push(URL_WITHDRAW)}
+                                <Button className="btn-item" onClick={() => Modal.info({
+                                    icon: <div/>,
+                                    okButtonProps: {style: {display: "none"}},
+                                    closable: true,
+                                    content: (<Withdraw object={userInfo}/>)
+                                })}
                                         size={"large"}><MoneyCollectFilled/> Withdraw Money</Button>
                             </Col>
                         </Row>

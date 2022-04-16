@@ -50,3 +50,7 @@
   margin: 20px;
 }
 
+.btn-item .ant-modal-content {
+  border-radius: 15px;
+}
+
