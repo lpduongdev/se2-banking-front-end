@@ -1,5 +1,5 @@
 {
-  "name": "se2_banking",
+  "name": "banking_system",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,6 +10,7 @@
     "antd": "^4.19.3",
     "antd-img-crop": "^4.2.0",
     "framer-motion": "^6.2.8",
+    "heroku": "^7.60.1",
     "node-sass": "^7.0.1",
     "qrcode.react": "^3.0.1",
     "rc-banner-anim": "^2.4.5",
