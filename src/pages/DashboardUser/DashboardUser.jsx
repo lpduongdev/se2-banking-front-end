@@ -131,13 +131,21 @@ const DashboardUser = () => {
                                                             onChange={(e) => password.new_password_confirm = e.currentTarget.value}/>
                                                     </Form.Item>
                                                     <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                                                        <Button loading={isSubmitting} type="primary" htmlType="submit">
-                                                            Submit
-                                                        </Button>
-                                                        <Button style={{marginLeft: 50}} htmlType="button"
-                                                                onClick={() => Modal.destroyAll()}>
-                                                            Cancel
-                                                        </Button>
+                                                        <div style={{
+                                                            display: "flex",
+                                                            justifyContent: "flex-start",
+                                                            alignItems: "center"
+                                                        }}>
+
+                                                            <Button loading={isSubmitting} type="primary"
+                                                                    htmlType="submit">
+                                                                Submit
+                                                            </Button>
+                                                            <Button style={{marginLeft: 50}} htmlType="button"
+                                                                    onClick={() => Modal.destroyAll()}>
+                                                                Cancel
+                                                            </Button>
+                                                        </div>
                                                     </Form.Item>
                                                 </Form>
                                             ),

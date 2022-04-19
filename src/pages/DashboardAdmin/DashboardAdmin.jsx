@@ -90,7 +90,8 @@ const DashboardUser = () => {
                                                             Modal.error({
                                                                 title: "Oops",
                                                                 content: "Password doesn't match",
-                                                                onOk: () => {}
+                                                                onOk: () => {
+                                                                }
                                                             })
                                                         else {
                                                             let formData = new FormData();
@@ -132,26 +133,36 @@ const DashboardUser = () => {
                                                             onChange={(e) => password.new_password_confirm = e.currentTarget.value}/>
                                                     </Form.Item>
                                                     <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                                                        <Button loading={isSubmitting} type="primary" htmlType="submit">
-                                                            Submit
-                                                        </Button>
-                                                        <Button style={{marginLeft: 50}} htmlType="button" onClick={() => Modal.destroyAll()}>
-                                                            Cancel
-                                                        </Button>
+                                                        <div style={{
+                                                            display: "flex",
+                                                            justifyContent: "flex-start",
+                                                            alignItems: "center"
+                                                        }}>
+
+                                                            <Button loading={isSubmitting} type="primary"
+                                                                    htmlType="submit">
+                                                                Submit
+                                                            </Button>
+                                                            <Button style={{marginLeft: 50}} htmlType="button"
+                                                                    onClick={() => Modal.destroyAll()}>
+                                                                Cancel
+                                                            </Button>
+                                                        </div>
                                                     </Form.Item>
                                                 </Form>
                                             ),
-                                            okButtonProps: {style: {display:"none"}}
+                                            okButtonProps: {style: {display: "none"}}
                                         })
                                     }
                                 }
                                 type={"primary"}>Change password</Button>
-                            <ImgCrop  rotate shape={"round"} grid quality={100}>
+                            <ImgCrop rotate shape={"round"} grid quality={100}>
                                 <Upload
                                     multiple={false}
                                     showUploadList={false}
                                     customRequest={onUploadImage}>
-                                    <Button loading={isUploadingAvatar} type={"primary"} icon={<UploadOutlined/>}>Change avatar</Button>
+                                    <Button loading={isUploadingAvatar} type={"primary"} icon={<UploadOutlined/>}>Change
+                                        avatar</Button>
                                 </Upload>
                             </ImgCrop>
                         </div>

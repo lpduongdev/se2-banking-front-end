@@ -17,8 +17,7 @@
 
 }
 
-.body .ant-card-bordered
-{
+.body .ant-card-bordered {
     border: 0;
     border-radius: 15PX;
 }
@@ -41,7 +40,7 @@
     background: #58b893;
     border-radius: 15px;
     color: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .user-info__avatar-container {
@@ -49,6 +48,7 @@
     min-width: 200px;
 
 }
+
 .user-info__avatar-container h2 {
     padding-top: 15px;
     padding-bottom: 20px;
@@ -60,12 +60,13 @@
 .user-info__balance h2 {
     color: white;
 }
+
 .form-container .ant-form-horizontal {
     padding: 30px;
 }
 
 .form-container .ant-input,
-.form-container .ant-input-number{
+.form-container .ant-input-number {
     border-radius: 10px;
     padding: 10px 20px;
     width: 300px;
@@ -86,4 +87,28 @@
     border: 1px solid #58b893;
     background: white;
     color: #58b893;
+}
+
+.form-container .ant-radio-button-wrapper > .ant-radio-button,
+.form-container .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    background: #58b893;
+    border: 1px solid #58b893;
+    color: white;
+}
+
+
+.form-container .ant-radio-button-wrapper:hover {
+    color: #939393;
+}
+
+.form-container .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover,
+.form-container .ant-radio-button-wrapper-checked:hover {
+    color: white;
+}
+
+@media only screen and (max-width: 1000px) {
+
+    .body .menu {
+        display: none;
+    }
 }

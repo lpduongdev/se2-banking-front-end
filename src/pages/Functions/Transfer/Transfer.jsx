@@ -1,4 +1,4 @@
-import {Button, Form, Input, InputNumber, Modal} from "antd";
+import {Button, Form, Input, InputNumber, Modal, Radio} from "antd";
 import React, {useState} from "react";
 import {USER_INFO} from "../../../const/key_storage";
 import {getUserInfo, transferMoney} from "../../../api/api_config";
@@ -8,7 +8,9 @@ import AnimatedPage from "../../../utils/AnimatedPage";
 const Transfer = (object) => {
     const userInfo = object.object
     const [receivedPhone, setReceivedPhone] = useState("")
+    const [receiverEmail, setReceiverEmail] = useState("")
     const [money, setMoney] = useState(0.0)
+    const [type, setType] = useState("")
 
     return (
         <AnimatedPage>
@@ -43,11 +45,29 @@ const Transfer = (object) => {
                         )
                     }}>
                     <Form.Item
+                        name="type"
+                        initialValue={type}
+                        rules={[{required: true, message: 'Please pick an item!'}]}>
+                        <h3 style={{textAlign: "center"}}>Type of receiver</h3>
+                        <Radio.Group style={{display: "flex", justifyContent: "center", alignItems: "center"}} onChange={(e) => {setType(e.target.value)}}>
+                            <Radio.Button value="email">Email</Radio.Button>
+                            <Radio.Button value="phoneNumber">Phone number</Radio.Button>
+                        </Radio.Group>
+                    </Form.Item>
+                    {type === 'phoneNumber' &&
+                    <Form.Item
                         rules={[{required: true, message: 'Please enter receiver account!'}]}>
                         <h3 style={{textAlign: "center"}}>Receiver's phone</h3>
-                        <Input style={{width: "100%"}} value={receivedPhone} autoComplete={"account"}
+                        <Input style={{width: "100%"}} value={receivedPhone} autoComplete={"phone"}
                                onChange={(e) => setReceivedPhone(e.currentTarget.value)}/>
-                    </Form.Item>
+                    </Form.Item>}
+                    {type === 'email' &&
+                    <Form.Item
+                        rules={[{required: true, message: 'Please enter receiver account!'}]}>
+                        <h3 style={{textAlign: "center"}}>Receiver's email</h3>
+                        <Input style={{width: "100%"}} value={receiverEmail} autoComplete={"email"}
+                               onChange={(e) => setReceiverEmail(e.currentTarget.value)}/>
+                    </Form.Item>}
                     <Form.Item
                         rules={[{required: true, message: 'Please enter your money!'}]}>
                         <h3 style={{textAlign: "center"}}>Money to transfer</h3>

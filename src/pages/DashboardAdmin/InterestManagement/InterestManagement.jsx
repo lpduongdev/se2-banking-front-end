@@ -34,6 +34,17 @@ const InterestManagement = () => {
                 size: size,
                 sort: SORT_TYPE,
             })
+            if (res.status === 403){
+                Modal.error(
+                    {
+                        title: "Login session expired",
+                        content: "Please login again",
+                        onOk: () => {
+                            isSessionExpired.set(true)
+                        }
+                    },)
+                return;
+            }
             if (!res.ok) return
             const json = await res.json();
             const newInterest = json.data.content.map(e => {

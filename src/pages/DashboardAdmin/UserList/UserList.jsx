@@ -283,8 +283,8 @@ const UserList = () => {
     const checkForm = (data) => {
         for (const item in data) {
             if (item === "phoneNumber") {
-                if (data.phoneNumber.length < 9) {
-                    Modal.error({title: "Phone length must higher than 8"})
+                if (!(new RegExp("^(\\+\\d)?\\d{10}$").test(data.phoneNumber))) {
+                    Modal.error({title: "Invalid phone number"})
                     return false;
                 }
 
@@ -296,14 +296,17 @@ const UserList = () => {
                 }
             }
             if (item === "password") {
+                if (!new RegExp("/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/").test(data.password)) {
+                    Modal.error({title: "Your password must have at least one number and special character"})
+                    return false;
+                }
                 if (data.password !== data.passwordConfirm) {
                     Modal.error({title: "Your password confirm doesn't match"})
                     return false;
                 }
             }
             if (item === "email") {
-                console.log(/\S+@\S+\.\S+/.test(data.email))
-                if (!(/\S+@\S+\.\S+/.test(data.email))) {
+                if (!(new RegExp("/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\\.)+[A-Za-z]+$/\n").test(data.email))) {
                     Modal.error({title: "Invalid email type"})
                     return false;
                 }

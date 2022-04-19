@@ -3,7 +3,7 @@ import {Avatar, Button, Card, Col, Row} from "antd";
 import {USER_INFO} from "../../const/key_storage";
 import React, {useContext, useState} from "react";
 import Transfer from "./Transfer/Transfer";
-import {URL_DEPOSIT, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
+import {URL_DEPOSIT, URL_LOAN, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
 import Deposit from "./Deposit/Deposit";
 import {useHistory} from "react-router-dom";
 import Withdraw from "./Withdraw/Withdraw";
@@ -16,6 +16,7 @@ import {
     WalletFilled
 } from "@ant-design/icons";
 import SharedContext from "../../utils/Context";
+import Loan from "./Loan/Loan";
 
 const FunctionsCard = () => {
     const {userInfo} = useContext(SharedContext)
@@ -40,33 +41,34 @@ const FunctionsCard = () => {
                     {functionType === URL_TRANSFER && <Transfer object={userInfo}/>}
                     {functionType === URL_DEPOSIT && <Deposit object={userInfo}/>}
                     {functionType === URL_WITHDRAW && <Withdraw object={userInfo}/>}
+                    {functionType === URL_LOAN && <Loan object={userInfo}/>}
                 </Card>
-                <div style={{paddingTop: 30, paddingBottom: 30, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
+                <div style={{paddingTop: 15, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
                     <Row className="menu">
                         <Col>
-                            <Button className="btn-item" onClick={() => setFunctionType(URL_TRANSFER)}
+                            <Button onClick={() => setFunctionType(URL_TRANSFER)}
                                     size={"large"}><DollarCircleFilled/> Transfer</Button>
                         </Col>
                         <Col>
-                            <Button className="btn-item" onClick={() => setFunctionType(URL_DEPOSIT)}
+                            <Button onClick={() => setFunctionType(URL_DEPOSIT)}
                                     size={"large"}><RedEnvelopeFilled/> Deposit Money</Button>
                         </Col>
                         <Col>
-                            <Button className="btn-item" onClick={() => setFunctionType(URL_WITHDRAW)}
+                            <Button onClick={() => setFunctionType(URL_WITHDRAW)}
                                     size={"large"}><MoneyCollectFilled/> Withdraw Money</Button>
                         </Col>
                         <Col>
-                            <Button className="btn-item" size={"large"}><WalletFilled/> Money Saving</Button>
+                            <Button size={"large"}><WalletFilled/> Money Saving</Button>
 
                         </Col>
                         <Col>
-                            <Button className="btn-item" size={"large"}><BankFilled/> Money Loan</Button>
+                            <Button onClick={() => setFunctionType(URL_LOAN)}
+                                    size={"large"}><BankFilled/> Money Loan</Button>
 
                         </Col>
                         <Col>
-                            <Button className="btn-item" size={"large"}><InteractionFilled/> Transaction
+                            <Button size={"large"}><InteractionFilled/> Transaction
                                 History</Button>
-
                         </Col>
                     </Row>
                 </div>
