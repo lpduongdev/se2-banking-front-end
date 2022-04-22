@@ -88,11 +88,11 @@ function App() {
                         <Route exact path={URL_USER_DASHBOARD} component={DashboardUser}/>
                         {!token && !userInfo && <Route exact path={URL_LOGIN} component={LoginPage}/>}
                         {token && userInfo && <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>}
-                        {token && userInfo && <Route exact path={URL_TRANSFER} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}
-                        {token && userInfo && <Route exact path={URL_DEPOSIT} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}
-                        {token && userInfo && <Route exact path={URL_WITHDRAW} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}
-                        {token && userInfo && <Route exact path={URL_SAVING} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}
-                        {token && userInfo && <Route exact path={URL_LOAN} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}
+                        {token && userInfo && <Route exact path={[URL_TRANSFER, URL_DEPOSIT, URL_WITHDRAW, URL_WITHDRAW, URL_SAVING, URL_LOAN]} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}
+                        {/*{token && userInfo && <Route exact path={URL_DEPOSIT} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}*/}
+                        {/*{token && userInfo && <Route exact path={URL_WITHDRAW} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}*/}
+                        {/*{token && userInfo && <Route exact path={URL_SAVING} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}*/}
+                        {/*{token && userInfo && <Route exact path={URL_LOAN} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}*/}
                         <Route path="*" component={Home}/>
                     </Switch>
                 </div>

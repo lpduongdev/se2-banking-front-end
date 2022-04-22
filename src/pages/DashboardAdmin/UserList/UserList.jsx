@@ -45,7 +45,7 @@ const UserList = () => {
             })
             setUsers(newUsers);
             setTotal(json.data.totalElements);
-        } catch (TypeError) {
+        } catch (TypeError  ) {
             Modal.error(
                 {
                     title: "Login session expired",
