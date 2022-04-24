@@ -33,10 +33,10 @@
   font-weight: bold;
 }
 
-.card-container__btn-list {
+.card-container__btn-list-user {
   display: flex;
-  flex-direction: column;
   justify-content: space-around;
+  flex-direction: column;
 }
 
 .avatar-uploader > .ant-upload {
@@ -52,5 +52,10 @@
 
 .btn-item .ant-modal-content {
   border-radius: 15px;
+}
+
+.ant-modal-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 

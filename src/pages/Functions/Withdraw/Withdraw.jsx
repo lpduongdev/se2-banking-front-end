@@ -15,10 +15,13 @@ const Withdraw = (object) => {
                 <h2 style={{textAlign: "center"}}>Withdraw</h2>
                 <Form
                     onFinish={() => {
-                        if (money <= 0) Modal.error({
-                            title: "Please input number higher than 0", onOk: () => {
-                            }
-                        })
+                        if (money <= 0) {
+                            Modal.error({
+                                title: "Please input number higher than 0", onOk: () => {
+                                }
+                            })
+                            return
+                        }
                         Modal.confirm({
                             title: `Are you sure want to withdraw ${money} to your account?`,
                             onOk: async () => {

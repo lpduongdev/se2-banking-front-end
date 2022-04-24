@@ -15,10 +15,13 @@ const Deposit = (object) => {
                 <h2 style={{textAlign: "center"}}>Deposit</h2>
                 <Form
                     onFinish={() => {
-                        if (money <= 0) Modal.error({
-                            title: "Please input number higher than 0", onOk: () => {
-                            }
-                        })
+                        if (money <= 0) {
+                            Modal.error({
+                                title: "Please input number higher than 0", onOk: () => {
+                                }
+                            })
+                            return
+                        }
                         Modal.confirm({
                             title: `Are you sure want to deposit ${money} to your account?`,
                             onOk: async () => {

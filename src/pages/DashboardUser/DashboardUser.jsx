@@ -15,7 +15,7 @@ import {
     UploadOutlined,
     WalletFilled
 } from "@ant-design/icons";
-import {URL_ADMIN_DASHBOARD, URL_DEPOSIT, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
+import {URL_ADMIN_DASHBOARD} from "../../const/routing_address";
 import {uploadImage} from "../../utils/ImageProcessor";
 import Transfer from "../Functions/Transfer/Transfer";
 import Deposit from "../Functions/Deposit/Deposit";
@@ -63,7 +63,7 @@ const DashboardUser = () => {
                             <h2>Bank debt: </h2>
                             <p>0 VND</p>
                         </div>
-                        <div className="card-container__btn-list">
+                        <div className="card-container__btn-list-user">
                             <Button
                                 onClick={
                                     () => {
@@ -156,7 +156,7 @@ const DashboardUser = () => {
                                     }
                                 }
                                 type={"primary"}>Change password</Button>
-                            <ImgCrop rotate shape={"round"} grid quality={100}>
+                            <ImgCrop rotate shape={"round"} grid quality={100} >
                                 <Upload
                                     multiple={false}
                                     showUploadList={false}
@@ -180,7 +180,7 @@ const DashboardUser = () => {
                                     icon: <div/>,
                                     okButtonProps: {style: {display: "none"}},
                                     closable: true,
-                                    content: (<Transfer object={[userInfo, isSessionExpired]}/>)
+                                    content: (<Transfer object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>)
                                 })}
                                         size={"large"}><DollarCircleFilled/> Transfer</Button>
                             </Col>
@@ -213,7 +213,7 @@ const DashboardUser = () => {
                                             icon: <div/>,
                                             okButtonProps: {style: {display: "none"}},
                                             closable: true,
-                                            content: (<Saving object={[userInfo, isSessionExpired]}/>)
+                                            content: (<Saving object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>)
                                         })}size={"large"}><WalletFilled/> Money Saving</Button>
 
                             </Col>
@@ -224,7 +224,7 @@ const DashboardUser = () => {
                                             icon: <div/>,
                                             okButtonProps: {style: {display: "none"}},
                                             closable: true,
-                                            content: (<Loan object={[userInfo, isSessionExpired]}/>)
+                                            content: (<Loan object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>)
                                         })}size={"large"}><BankFilled/> Money Loan</Button>
 
                             </Col>

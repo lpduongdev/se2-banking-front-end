@@ -7,16 +7,14 @@ import {
     userGetInfo
 } from "../../../api/api_config";
 import {USER_INFO} from "../../../const/key_storage";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {URL_HOME} from "../../../const/routing_address";
 import {millisecondsToDate} from "../../../utils/DateTimeConverter";
-import SharedContext from "../../../utils/Context";
 import {useStateIfMounted} from "use-state-if-mounted";
 
 const Saving = (object) => {
-    const {isSessionExpired} = object
-    const userInfo = object.object
+    const {isSessionExpired, userInfo} = object.object
     const [money, setMoney] = useState(0.0)
     const [planList, setPlanList] = useStateIfMounted({})
     const [planType, setPlanType] = useState("")
@@ -72,7 +70,6 @@ const Saving = (object) => {
                         <Form
                             onFinish={() => {
                                 if (!planType) {
-                                    Modal.destroyAll()
                                     Modal.error({
                                         title: "Please select plan", onOk: () => {
                                         }

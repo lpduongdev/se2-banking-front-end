@@ -85,7 +85,7 @@ function App() {
                         <Route exact path={URL_USER_DASHBOARD} component={DashboardUser}/>
                         {!token && !userInfo && <Route exact path={URL_LOGIN} component={LoginPage}/>}
                         {token && userInfo && <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>}
-                        {token && userInfo && <Route exact path={[URL_TRANSFER, URL_DEPOSIT, URL_WITHDRAW, URL_WITHDRAW, URL_SAVING, URL_LOAN]} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}
+                        {token && userInfo && <Route exact path={[URL_TRANSFER, URL_DEPOSIT, URL_WITHDRAW, URL_WITHDRAW, URL_SAVING, URL_LOAN]} component={() => (<FunctionsCard  object={{userInfo: sharedValue.userInfo, isSessionExpired: sharedValue.isSessionExpired}}/>)}/>}
                         <Route path="*" component={Home}/>
                     </Switch>
                 </div>

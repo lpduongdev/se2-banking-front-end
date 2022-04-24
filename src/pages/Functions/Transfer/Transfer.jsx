@@ -6,7 +6,7 @@ import "../form.css"
 import AnimatedPage from "../../../utils/AnimatedPage";
 
 const Transfer = (object) => {
-    const userInfo = object.object
+    const {userInfo} = object.object
     const [receiverPhoneNumber, setReceiverPhoneNumber] = useState("")
     const [receiverEmail, setReceiverEmail] = useState("")
     const [money, setMoney] = useState(0.0)
@@ -90,7 +90,7 @@ const Transfer = (object) => {
                         rules={[{required: true, message: 'Please enter your money!'}]}>
                         <h3 style={{textAlign: "center"}}>Money to transfer</h3>
                         <InputNumber style={{width: "100%"}} autoComplete="money" value={money}
-                                     onChange={(e => setMoney(e))}/>
+                                     onChange={((e) => setMoney(e))}/>
                     </Form.Item>
                     <Form.Item style={{textAlign: "center"}}>
                         <Button type={"primary"} size={"large"} htmlType="submit">Transfer</Button>

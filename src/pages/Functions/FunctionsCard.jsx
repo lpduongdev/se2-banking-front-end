@@ -39,11 +39,11 @@ const FunctionsCard = () => {
                             <p>{JSON.parse(window.localStorage.getItem(USER_INFO)).balance} VND</p>
                         </div>
                     </div>
-                    {functionType === URL_TRANSFER && <Transfer object={[userInfo, isSessionExpired]}/>}
-                    {functionType === URL_DEPOSIT && <Deposit object={[userInfo, isSessionExpired]}/>}
-                    {functionType === URL_WITHDRAW && <Withdraw object={[userInfo, isSessionExpired]}/>}
-                    {functionType === URL_LOAN && <Loan object={[userInfo, isSessionExpired]}/>}
-                    {functionType === URL_SAVING && <Saving object={[userInfo, isSessionExpired]}/>}
+                    {functionType === URL_TRANSFER && <Transfer object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_DEPOSIT && <Deposit object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_WITHDRAW && <Withdraw object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_LOAN && <Loan object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_SAVING && <Saving object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
                 </Card>
                 <div style={{paddingTop: 15, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
                     <Row className="menu">
