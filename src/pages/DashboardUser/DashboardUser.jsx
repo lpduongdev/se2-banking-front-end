@@ -20,6 +20,8 @@ import {uploadImage} from "../../utils/ImageProcessor";
 import Transfer from "../Functions/Transfer/Transfer";
 import Deposit from "../Functions/Deposit/Deposit";
 import Withdraw from "../Functions/Withdraw/Withdraw";
+import Saving from "../Functions/Saving/Saving";
+import Loan from "../Functions/Loan/Loan";
 
 const DashboardUser = () => {
     const {userInfo, isAdmin, isSessionExpired} = useContext(SharedContext)
@@ -174,39 +176,56 @@ const DashboardUser = () => {
                         <Row className="menu">
                             <Col>
                                 <Button className="btn-item" onClick={() => Modal.info({
+                                    centered: true,
                                     icon: <div/>,
                                     okButtonProps: {style: {display: "none"}},
                                     closable: true,
-                                    content: (<Transfer object={userInfo}/>)
+                                    content: (<Transfer object={[userInfo, isSessionExpired]}/>)
                                 })}
                                         size={"large"}><DollarCircleFilled/> Transfer</Button>
                             </Col>
                             <Col>
                                 <Button className="btn-item" onClick={() => Modal.info({
+                                    centered: true,
                                     icon: <div/>,
                                     okButtonProps: {style: {display: "none"}},
                                     closable: true,
-                                    content: (<Deposit object={userInfo}/>)
+                                    content: (<Deposit object={[userInfo, isSessionExpired]}/>)
                                 })}
                                         size={"large"}><RedEnvelopeFilled/> Deposit Money</Button>
                             </Col>
                             <Col>
                                 <Button className="btn-item" onClick={() => Modal.info({
+                                    centered: true,
                                     icon: <div/>,
                                     okButtonProps: {style: {display: "none"}},
                                     closable: true,
-                                    content: (<Withdraw object={userInfo}/>)
+                                    content: (<Withdraw object={[userInfo, isSessionExpired]}/>)
                                 })}
                                         size={"large"}><MoneyCollectFilled/> Withdraw Money</Button>
                             </Col>
                         </Row>
                         <Row className="menu">
                             <Col>
-                                <Button className="btn-item" size={"large"}><WalletFilled/> Money Saving</Button>
+                                <Button className="btn-item"
+                                        onClick={() => Modal.info({
+                                            centered: true,
+                                            icon: <div/>,
+                                            okButtonProps: {style: {display: "none"}},
+                                            closable: true,
+                                            content: (<Saving object={[userInfo, isSessionExpired]}/>)
+                                        })}size={"large"}><WalletFilled/> Money Saving</Button>
 
                             </Col>
                             <Col>
-                                <Button className="btn-item" size={"large"}><BankFilled/> Money Loan</Button>
+                                <Button className="btn-item"
+                                        onClick={() => Modal.info({
+                                            centered: true,
+                                            icon: <div/>,
+                                            okButtonProps: {style: {display: "none"}},
+                                            closable: true,
+                                            content: (<Loan object={[userInfo, isSessionExpired]}/>)
+                                        })}size={"large"}><BankFilled/> Money Loan</Button>
 
                             </Col>
                             <Col>

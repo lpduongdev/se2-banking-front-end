@@ -20,7 +20,7 @@ import Loan from "./Loan/Loan";
 import Saving from "./Saving/Saving";
 
 const FunctionsCard = () => {
-    const {userInfo} = useContext(SharedContext)
+    const {userInfo,isSessionExpired} = useContext(SharedContext)
     const history = useHistory()
     const [functionType, setFunctionType] = useState(history.location.pathname)
 
@@ -39,11 +39,11 @@ const FunctionsCard = () => {
                             <p>{JSON.parse(window.localStorage.getItem(USER_INFO)).balance} VND</p>
                         </div>
                     </div>
-                    {functionType === URL_TRANSFER && <Transfer object={userInfo}/>}
-                    {functionType === URL_DEPOSIT && <Deposit object={userInfo}/>}
-                    {functionType === URL_WITHDRAW && <Withdraw object={userInfo}/>}
-                    {functionType === URL_LOAN && <Loan object={userInfo}/>}
-                    {functionType === URL_SAVING && <Saving object={userInfo}/>}
+                    {functionType === URL_TRANSFER && <Transfer object={[userInfo, isSessionExpired]}/>}
+                    {functionType === URL_DEPOSIT && <Deposit object={[userInfo, isSessionExpired]}/>}
+                    {functionType === URL_WITHDRAW && <Withdraw object={[userInfo, isSessionExpired]}/>}
+                    {functionType === URL_LOAN && <Loan object={[userInfo, isSessionExpired]}/>}
+                    {functionType === URL_SAVING && <Saving object={[userInfo, isSessionExpired]}/>}
                 </Card>
                 <div style={{paddingTop: 15, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
                     <Row className="menu">
@@ -60,7 +60,8 @@ const FunctionsCard = () => {
                                     size={"large"}><MoneyCollectFilled/> Withdraw Money</Button>
                         </Col>
                         <Col>
-                            <Button size={"large"}><WalletFilled/> Money Saving</Button>
+                            <Button onClick={() => setFunctionType(URL_SAVING)}
+                                    size={"large"}><WalletFilled/> Money Saving</Button>
 
                         </Col>
                         <Col>

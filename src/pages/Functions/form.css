@@ -141,7 +141,8 @@
 .plan-list .ant-radio-button-wrapper:first-child:last-child,
 .plan-list .ant-radio-button-wrapper:first-child,
 .plan-list .ant-radio-button-wrapper:last-child{
-    background: #eee;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: #fdfdfd;
     border: none;
     margin: 15px;
     border-radius: 10px;

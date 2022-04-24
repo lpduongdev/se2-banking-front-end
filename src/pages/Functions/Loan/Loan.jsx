@@ -10,7 +10,7 @@ import SharedContext from "../../../utils/Context";
 import {useStateIfMounted} from "use-state-if-mounted";
 
 const Loan = (object) => {
-    const {isSessionExpired} = useContext(SharedContext)
+    const {isSessionExpired} = object
     const userInfo = object.object
     const [money, setMoney] = useState(0.0)
     const [planList, setPlanList] = useStateIfMounted({})
@@ -105,9 +105,15 @@ const Loan = (object) => {
                                     {isLoadedData && planList.map(item =>
                                         item.type === 'loan' ?
                                             <Radio.Button key={item.id} value={item.id}>
-                                                <p>Rate: {item.rate}%</p>
-                                                <p>Instant rate: {item.instantRate}%</p>
-                                                <p>Duration: {millisecondsToDate(item.duration)} days</p>
+                                                <div style={{
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    whiteSpace: "nowrap",
+                                                }}>
+                                                    <p><b>Rate: </b>{item.rate}%</p>
+                                                    <p><b>Instant rate: </b>{item.instantRate}%</p>
+                                                    <p><b>Duration: </b>{millisecondsToDate(item.duration)} days</p>
+                                                </div>
                                             </Radio.Button>
                                             : <div key={item.id}/>
                                     )}

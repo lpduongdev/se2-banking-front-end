@@ -15,7 +15,7 @@ import SharedContext from "../../../utils/Context";
 import {useStateIfMounted} from "use-state-if-mounted";
 
 const Saving = (object) => {
-    const {isSessionExpired} = useContext(SharedContext)
+    const {isSessionExpired} = object
     const userInfo = object.object
     const [money, setMoney] = useState(0.0)
     const [planList, setPlanList] = useStateIfMounted({})
@@ -26,6 +26,9 @@ const Saving = (object) => {
 
     const history = useHistory();
 
+    useEffect(() => {
+        if (!isMaturity) if (isMaturityProfit) setIsMaturityProfit(false)
+    }, [isMaturity])
 
     useEffect(() => {
         (async () => {
@@ -88,7 +91,6 @@ const Saving = (object) => {
                                     title: `Are you sure want to create a saving ${money}?`,
                                     onOk: async () => {
                                         try {
-                                            if (!isMaturity) setIsMaturityProfit(false)
                                             const res = await transactionCreateSaving({
                                                 "amount": money,
                                                 "hasMaturity": isMaturity,
@@ -134,9 +136,14 @@ const Saving = (object) => {
                                     {isLoadedData && planList.map(item =>
                                         item.type === 'saving' ?
                                             <Radio.Button key={item.id} value={item.id}>
-                                                <p>Rate: {item.rate}%</p>
-                                                <p>Instant rate: {item.instantRate}%</p>
-                                                <p>Duration: {millisecondsToDate(item.duration)} days</p>
+                                                <div style={{
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    whiteSpace: "nowrap",}}>
+                                                    <p><b>Rate: </b>{item.rate}%</p>
+                                                    <p><b>Instant rate: </b>{item.instantRate}%</p>
+                                                    <p><b>Duration: </b>{millisecondsToDate(item.duration)} days</p>
+                                                </div>
                                             </Radio.Button>
                                             : <div key={item.id}/>
                                     )}
@@ -144,8 +151,9 @@ const Saving = (object) => {
                             </Form.Item>
                             <Form.Item>
                                 <div style={{display: "flex", justifyContent: "center"}}>
-                                    <Checkbox onChange={e => setIsMaturity(e.target.checked)}>Maturity</Checkbox>
-                                    <Checkbox disabled={!isMaturity} onChange={e => setIsMaturityProfit(e.target.value)}>Profit</Checkbox>
+                                    <Checkbox checked={isMaturity} onChange={e => setIsMaturity(e.target.checked)}>Maturity</Checkbox>
+                                    <Checkbox disabled={!isMaturity} checked={isMaturityProfit}
+                                              onChange={e => setIsMaturityProfit(e.target.checked)}>Profit</Checkbox>
 
                                 </div>
                             </Form.Item>
