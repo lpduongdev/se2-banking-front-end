@@ -1,10 +1,76 @@
+.base-home {
+    margin-top: 7%;
+    background: #eeeeee;
+    padding: 0px 30px;
+    height: 100%;
+}
+
 .banner {
-  padding-top: 10%;
-  height: auto;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  flex-direction: column;
+    margin: 20px;
+    background: white;
+    height: auto;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 4%;
+}
+
+.functions__list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.functions__list .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 250px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.item p {
+    text-align: center;
+    color: #808080;
+}
+
+.item h2 {
+    padding-top: 30px;
+    color: #32b987;
+}
+
+.content {
+    display: flex;
+    justify-content: space-around;
+}
+
+.left {
+    flex-direction: row;
+}
+
+.right {
+    flex-direction: row-reverse;
+}
+
+.content-text-wrapper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 50%;
+}
+
+.content-text-wrapper h2 {
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: #212558;
+}
+
+.content-text-wrapper p {
+    font-size: 1.4rem;
 }

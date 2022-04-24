@@ -27,6 +27,7 @@ function App() {
     const [userInfo, setUserInfo] = useState(window.localStorage.getItem(USER_INFO))
     const [isSessionExpired, setIsSessionExpired] = useState(false)
     const [showHeader, setShowHeader] = useState(true)
+    const [showFooter, setShowFooter] = useState(true)
 
     const history = useHistory();
     const location = useLocation();
@@ -42,7 +43,7 @@ function App() {
         }
     }, [isSessionExpired])
 
-    useEffect( () => {
+    useEffect(() => {
         const localToken = window.localStorage.getItem(TOKEN);
         const localUserInfo = window.localStorage.getItem(USER_INFO)
         const localIsAdmin = window.localStorage.getItem(IS_ADMIN)
@@ -72,7 +73,7 @@ function App() {
         showHeader: {
             get: showHeader,
             set: setShowHeader,
-        }
+        },
     }
 
     return (
@@ -85,7 +86,12 @@ function App() {
                         <Route exact path={URL_USER_DASHBOARD} component={DashboardUser}/>
                         {!token && !userInfo && <Route exact path={URL_LOGIN} component={LoginPage}/>}
                         {token && userInfo && <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>}
-                        {token && userInfo && <Route exact path={[URL_TRANSFER, URL_DEPOSIT, URL_WITHDRAW, URL_WITHDRAW, URL_SAVING, URL_LOAN]} component={() => (<FunctionsCard  object={{userInfo: sharedValue.userInfo, isSessionExpired: sharedValue.isSessionExpired}}/>)}/>}
+                        {token && userInfo && <Route exact
+                                                     path={[URL_TRANSFER, URL_DEPOSIT, URL_WITHDRAW, URL_WITHDRAW, URL_SAVING, URL_LOAN]}
+                                                     component={() => (<FunctionsCard object={{
+                                                         userInfo: sharedValue.userInfo,
+                                                         isSessionExpired: sharedValue.isSessionExpired
+                                                     }}/>)}/>}
                         <Route path="*" component={Home}/>
                     </Switch>
                 </div>

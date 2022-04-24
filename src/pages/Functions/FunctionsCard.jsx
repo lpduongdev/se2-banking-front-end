@@ -1,7 +1,7 @@
 import AnimatedPage from "../../utils/AnimatedPage";
 import {Avatar, Button, Card, Col, Row} from "antd";
 import {USER_INFO} from "../../const/key_storage";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Transfer from "./Transfer/Transfer";
 import {URL_DEPOSIT, URL_LOAN, URL_SAVING, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
 import Deposit from "./Deposit/Deposit";
@@ -20,7 +20,7 @@ import Loan from "./Loan/Loan";
 import Saving from "./Saving/Saving";
 
 const FunctionsCard = () => {
-    const {userInfo,isSessionExpired} = useContext(SharedContext)
+    const {userInfo, isSessionExpired, showFooter} = useContext(SharedContext)
     const history = useHistory()
     const [functionType, setFunctionType] = useState(history.location.pathname)
 
@@ -39,11 +39,16 @@ const FunctionsCard = () => {
                             <p>{JSON.parse(window.localStorage.getItem(USER_INFO)).balance} VND</p>
                         </div>
                     </div>
-                    {functionType === URL_TRANSFER && <Transfer object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
-                    {functionType === URL_DEPOSIT && <Deposit object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
-                    {functionType === URL_WITHDRAW && <Withdraw object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
-                    {functionType === URL_LOAN && <Loan object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
-                    {functionType === URL_SAVING && <Saving object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_TRANSFER &&
+                        <Transfer object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_DEPOSIT &&
+                        <Deposit object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_WITHDRAW &&
+                        <Withdraw object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_LOAN &&
+                        <Loan object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_SAVING &&
+                        <Saving object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
                 </Card>
                 <div style={{paddingTop: 15, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
                     <Row className="menu">
