@@ -3,7 +3,7 @@ import SharedContext from "../../../utils/Context";
 import AnimatedPage from "../../../utils/AnimatedPage";
 import {Avatar, Button, Card, Form, InputNumber, Modal} from "antd";
 import {USER_INFO} from "../../../const/key_storage";
-import {getUserInfo, withdrawMoney} from "../../../api/api_config";
+import {userGetInfo, transactionWithdraw} from "../../../api/api_config";
 
 const Withdraw = (object) => {
     const userInfo = object.object
@@ -24,14 +24,14 @@ const Withdraw = (object) => {
                             onOk: async () => {
                                 let formData = new FormData();
                                 formData.append("amount", money + "");
-                                const res = await withdrawMoney({formData: formData})
+                                const res = await transactionWithdraw({formData: formData})
                                 if (!res.ok) Modal.error({
                                     title: "Can not deposit money!",
                                     onOk: () => Modal.destroyAll()
                                 })
                                 else {
                                     const json = await res.json()
-                                    const newUserInfo = await (await getUserInfo()).json()
+                                    const newUserInfo = await (await userGetInfo()).json()
                                     window.localStorage.setItem(USER_INFO, JSON.stringify(newUserInfo.data))
                                     userInfo.set(JSON.stringify(newUserInfo.data))
                                     Modal.success({

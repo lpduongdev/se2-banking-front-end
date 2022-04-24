@@ -106,9 +106,43 @@
     color: white;
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1200px) {
 
     .body .menu {
         display: none;
     }
+}
+
+.plan-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: auto;
+}
+
+.plan-list .ant-radio-button-wrapper {
+    height: auto;
+}
+
+.plan-list .ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
+.plan-list .ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover,
+.plan-list .ant-radio-button-wrapper > .ant-radio-button, .form-container .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    border: none;
+    background: #58b893;
+    border-radius: 10px;
+}
+
+.plan-list .ant-radio-button-wrapper:not(:first-child):before {
+    position: relative;
+    border: none;
+}
+
+.plan-list .ant-radio-button-wrapper,
+.plan-list .ant-radio-button-wrapper:first-child:last-child,
+.plan-list .ant-radio-button-wrapper:first-child,
+.plan-list .ant-radio-button-wrapper:last-child{
+    background: #eee;
+    border: none;
+    margin: 15px;
+    border-radius: 10px;
 }

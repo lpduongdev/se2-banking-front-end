@@ -3,7 +3,7 @@ import {Avatar, Button, Card, Col, Row} from "antd";
 import {USER_INFO} from "../../const/key_storage";
 import React, {useContext, useState} from "react";
 import Transfer from "./Transfer/Transfer";
-import {URL_DEPOSIT, URL_LOAN, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
+import {URL_DEPOSIT, URL_LOAN, URL_SAVING, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
 import Deposit from "./Deposit/Deposit";
 import {useHistory} from "react-router-dom";
 import Withdraw from "./Withdraw/Withdraw";
@@ -17,6 +17,7 @@ import {
 } from "@ant-design/icons";
 import SharedContext from "../../utils/Context";
 import Loan from "./Loan/Loan";
+import Saving from "./Saving/Saving";
 
 const FunctionsCard = () => {
     const {userInfo} = useContext(SharedContext)
@@ -42,6 +43,7 @@ const FunctionsCard = () => {
                     {functionType === URL_DEPOSIT && <Deposit object={userInfo}/>}
                     {functionType === URL_WITHDRAW && <Withdraw object={userInfo}/>}
                     {functionType === URL_LOAN && <Loan object={userInfo}/>}
+                    {functionType === URL_SAVING && <Saving object={userInfo}/>}
                 </Card>
                 <div style={{paddingTop: 15, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
                     <Row className="menu">

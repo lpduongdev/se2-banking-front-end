@@ -1,14 +1,15 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Card, Button, Modal, Table, Space, Form, Input, InputNumber, Dropdown, Menu, Radio, Tag} from "antd";
 import {
-    deleteUser,
-    updateUserInfo,
-    setBalance, getUserInfo, getPageableInterest, createInterest, deleteInterestRate, updateInterestRate
+    adminDeleteUser,
+    userUpdateUserInfo,
+    adminSetBalance, userGetInfo, interestGetPageable, createInterest, interestDeleteRate, interestUpdateRate
 } from "../../../api/api_config";
 import "../Form.css"
 import SharedContext from "../../../utils/Context";
 import {TOKEN, USER_INFO} from "../../../const/key_storage";
 import AnimatedPage from "../../../utils/AnimatedPage";
+import {dateToMilliseconds, millisecondsToDate} from "../../../utils/DateTimeConverter";
 
 
 const InterestManagement = () => {
@@ -29,7 +30,7 @@ const InterestManagement = () => {
     const getPaginationData = async () => {
         setIsLoading(true)
         try {
-            const res = await getPageableInterest({
+            const res = await interestGetPageable({
                 page: page,
                 size: size,
                 sort: SORT_TYPE,
@@ -48,7 +49,7 @@ const InterestManagement = () => {
             if (!res.ok) return
             const json = await res.json();
             const newInterest = json.data.content.map(e => {
-                e.duration = (e.duration / 24 / 60 / 60 / 1000)
+                e.duration = (millisecondsToDate(e.duration))
                 return e
             })
             setInterest(newInterest);
@@ -76,7 +77,7 @@ const InterestManagement = () => {
                 okText: "Sure!",
                 cancelText: "Nope",
                 onOk: async () => {
-                    const res = await deleteInterestRate(id);
+                    const res = await interestDeleteRate(id);
                     if (!res.ok) Modal.error({
                         disableEnforceFocus: true,
                         title: "Oops!",
@@ -118,7 +119,7 @@ const InterestManagement = () => {
                     initialValues={{remember: true}}
                     onFinish={async () => {
                         isSubmitting = true
-                        data.duration = data.duration * 24 * 60 * 60 * 1000;
+                        data.duration = dateToMilliseconds(data.duration);
 
                         if (!checkInterestForm(data)) return
 
@@ -221,7 +222,7 @@ const InterestManagement = () => {
                     wrapperCol={{span: 16}}
                     initialValues={{remember: true}}
                     onFinish={async () => {
-                        const res = await updateInterestRate({
+                        const res = await interestUpdateRate({
                             rate: data.rate,
                             instantRate: data.instantRate,
                             duration: data.duration,

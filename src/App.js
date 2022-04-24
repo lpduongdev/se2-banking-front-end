@@ -19,9 +19,6 @@ import {useLocation} from "react-router-dom";
 import DashboardAdmin from "./pages/DashboardAdmin/DashboardAdmin";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import NavigationHeader from "./components/NavigationHeader/NavigationHeader";
-import Transfer from "./pages/Functions/Transfer/Transfer";
-import Deposit from "./pages/Functions/Deposit/Deposit";
-import Withdraw from "./pages/Functions/Withdraw/Withdraw";
 import FunctionsCard from "./pages/Functions/FunctionsCard";
 
 function App() {
@@ -89,10 +86,6 @@ function App() {
                         {!token && !userInfo && <Route exact path={URL_LOGIN} component={LoginPage}/>}
                         {token && userInfo && <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>}
                         {token && userInfo && <Route exact path={[URL_TRANSFER, URL_DEPOSIT, URL_WITHDRAW, URL_WITHDRAW, URL_SAVING, URL_LOAN]} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}
-                        {/*{token && userInfo && <Route exact path={URL_DEPOSIT} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}*/}
-                        {/*{token && userInfo && <Route exact path={URL_WITHDRAW} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}*/}
-                        {/*{token && userInfo && <Route exact path={URL_SAVING} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}*/}
-                        {/*{token && userInfo && <Route exact path={URL_LOAN} component={() => (<FunctionsCard object={sharedValue.userInfo}/>)}/>}*/}
                         <Route path="*" component={Home}/>
                     </Switch>
                 </div>

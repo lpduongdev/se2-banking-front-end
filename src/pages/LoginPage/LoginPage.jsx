@@ -4,12 +4,12 @@ import AnimatedPage from "../../utils/AnimatedPage"
 import SharedContext from "../../utils/Context";
 import {URL_ADMIN_DASHBOARD, URL_USER_DASHBOARD} from "../../const/routing_address";
 import {
-    getUserInfo,
+    userGetInfo,
     login,
     registerAdmin,
-    setBalance,
-    updateUserInfo,
-    deleteUser
+    adminSetBalance,
+    userUpdateUserInfo,
+    adminDeleteUser
 } from "../../api/api_config";
 import {USER_INFO, IS_ADMIN, TOKEN} from "../../const/key_storage";
 import {useHistory} from "react-router";
@@ -85,7 +85,7 @@ const LoginPage = () => {
 
             token.set(tokenString)
 
-            let fetchedData = await getUserInfo()
+            let fetchedData = await userGetInfo()
 
             if (!fetchedData.ok) {
                 Modal.error({
@@ -212,7 +212,7 @@ const LoginPage = () => {
 
 
                             //************************** UPDATE USER INFO ****************************//
-                            const updateUserInfoResponse = await updateUserInfo({
+                            const updateUserInfoResponse = await userUpdateUserInfo({
                                 id: registerAccountResponseJSON.data.id,
                                 firstName: data.firstName,
                                 lastName: data.lastName,
@@ -227,7 +227,7 @@ const LoginPage = () => {
                                     title: 'Oops',
                                     content: (await updateUserInfoResponse.json()).message,
                                     onOk: async () => {
-                                        await deleteUser(registerAccountResponseJSON.data.id)
+                                        await adminDeleteUser(registerAccountResponseJSON.data.id)
                                         Modal.destroyAll()
                                     },
                                 })
@@ -239,7 +239,7 @@ const LoginPage = () => {
                             //***********************    UPDATING BALANCE   **************************//
                             let formData = new FormData();
                             formData.append('balance', data.balance);
-                            const updateBalanceResponse = await setBalance({
+                            const updateBalanceResponse = await adminSetBalance({
                                 id: registerAccountResponseJSON.data.id,
                                 data: formData,
                             })

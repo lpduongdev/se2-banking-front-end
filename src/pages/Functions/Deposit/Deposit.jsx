@@ -1,7 +1,7 @@
 import { Button,Form,InputNumber, Modal} from "antd";
 import React, {useState} from "react";
 import {USER_INFO} from "../../../const/key_storage";
-import {depositMoney, getUserInfo} from "../../../api/api_config";
+import {transactionDeposit, userGetInfo} from "../../../api/api_config";
 import "../form.css"
 import AnimatedPage from "../../../utils/AnimatedPage";
 
@@ -24,13 +24,13 @@ const Deposit = (object) => {
                             onOk: async () => {
                                 let formData = new FormData();
                                 formData.append("amount", money + "");
-                                const res = await depositMoney({formData: formData})
+                                const res = await transactionDeposit({formData: formData})
                                 if (!res.ok) Modal.error({
                                     title: "Can not deposit money!",
                                     onOk: () => Modal.destroyAll()
                                 })
                                 else {
-                                    const newUserInfo = await (await getUserInfo()).json()
+                                    const newUserInfo = await (await userGetInfo()).json()
                                     window.localStorage.setItem(USER_INFO, JSON.stringify(newUserInfo.data))
                                     console.log(userInfo)
                                     userInfo.set(JSON.stringify(newUserInfo.data))

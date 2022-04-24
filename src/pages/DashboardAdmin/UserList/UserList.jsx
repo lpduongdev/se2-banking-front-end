@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Card, Button, Modal, Table, Space, Form, Input, InputNumber, Dropdown, Menu} from "antd";
 import {
-    deleteUser,
-    getPageableUser,
+    adminDeleteUser,
+    adminGetPageableUser,
     registerUser,
     registerAdmin,
-    updateUserInfo,
-    setBalance, getUserInfo
+    userUpdateUserInfo,
+    adminSetBalance, userGetInfo
 } from "../../../api/api_config";
 import "../Form.css"
 import SharedContext from "../../../utils/Context";
@@ -31,7 +31,7 @@ const UserList = () => {
     const getPaginationData = async () => {
         setIsLoading(true)
         try {
-            const res = await getPageableUser({
+            const res = await adminGetPageableUser({
                 page: page,
                 size: size,
                 sortBy: SORT_TYPE,
@@ -67,7 +67,7 @@ const UserList = () => {
                 okText: "Sure!",
                 cancelText: "Nope",
                 onOk: async () => {
-                    const res = await deleteUser(id);
+                    const res = await adminDeleteUser(id);
                     if (!res.ok) Modal.error({
                         disableEnforceFocus: true,
                         title: "Oops!",
@@ -141,7 +141,7 @@ const UserList = () => {
 
 
                         //************************** UPDATE USER INFO ****************************//
-                        const updateUserInfoResponse = await updateUserInfo({
+                        const updateUserInfoResponse = await userUpdateUserInfo({
                             id: registerAccountResponseJSON.data.id,
                             firstName: data.firstName,
                             lastName: data.lastName,
@@ -156,7 +156,7 @@ const UserList = () => {
                                 title: 'Oops',
                                 content: (await updateUserInfoResponse.json()).message,
                                 onOk: async () => {
-                                    await deleteUser(registerAccountResponseJSON.data.id)
+                                    await adminDeleteUser(registerAccountResponseJSON.data.id)
                                     await getPaginationData();
                                     Modal.destroyAll()
                                 },
@@ -169,7 +169,7 @@ const UserList = () => {
                         //***********************    UPDATING BALANCE   **************************//
                         let formData = new FormData();
                         formData.append('balance', data.balance);
-                        const updateBalanceResponse = await setBalance({
+                        const updateBalanceResponse = await adminSetBalance({
                             id: registerAccountResponseJSON.data.id,
                             data: formData,
                         })
@@ -297,7 +297,7 @@ const UserList = () => {
             }
             if (item === "password") {
                 if (!new RegExp("/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/").test(data.password)) {
-                    Modal.error({title: "Your password must have at least one number and special character"})
+                    Modal.error({title: "Your password must have at least one number, special character, uppercase and lowercase words"})
                     return false;
                 }
                 if (data.password !== data.passwordConfirm) {
@@ -328,7 +328,7 @@ const UserList = () => {
                     wrapperCol={{span: 16}}
                     initialValues={{remember: true}}
                     onFinish={async () => {
-                        const res = await updateUserInfo({
+                        const res = await userUpdateUserInfo({
                             id: inputData.id,
                             firstName: inputData.firstName,
                             lastName: inputData.lastName,
@@ -418,7 +418,7 @@ const UserList = () => {
 
                 let formData = new FormData();
                 formData.append('balance', balance);
-                const res = await setBalance({
+                const res = await adminSetBalance({
                     id: record.id,
                     data: formData,
                 })
@@ -435,7 +435,7 @@ const UserList = () => {
                     })
                 await getPaginationData()
 
-                const updatedUserData = await getUserInfo()
+                const updatedUserData = await userGetInfo()
                 if (!updatedUserData.ok) return
                 const updatedJson = await updatedUserData.json()
                 await window.localStorage.setItem(USER_INFO, JSON.stringify(updatedJson.data))

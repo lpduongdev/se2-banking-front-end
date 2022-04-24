@@ -7,7 +7,7 @@ import SharedContext from "../../utils/Context";
 import {IS_ADMIN, USER_INFO} from "../../const/key_storage";
 import UserList from "./UserList/UserList";
 import {Avatar, Button, Card, Form, Input, Modal, Upload, Spin} from "antd";
-import {changePassword, getUserInfo} from "../../api/api_config";
+import {userChangePassword, userGetInfo} from "../../api/api_config";
 import ImgCrop from "antd-img-crop";
 import {UploadOutlined} from "@ant-design/icons";
 import {uploadImage} from "../../utils/ImageProcessor";
@@ -37,7 +37,7 @@ const DashboardUser = () => {
                 },
             })
         } finally {
-            userInfo.set((await (await getUserInfo()).json()).data)
+            userInfo.set((await (await userGetInfo()).json()).data)
             setIsUploadingAvatar(false)
         }
 
@@ -97,7 +97,7 @@ const DashboardUser = () => {
                                                             let formData = new FormData();
                                                             formData.append('previous_pass', password.previous_pass);
                                                             formData.append('new_password', password.new_password)
-                                                            const res = await changePassword({
+                                                            const res = await userChangePassword({
                                                                 data: formData,
                                                             })
                                                             if (!res.ok)

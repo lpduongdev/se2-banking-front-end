@@ -40,13 +40,13 @@ export const isTokenExpired = async () => {
     })
 }
 
-export const getUserInfo = async () => await fetch(`${BASE_URL}/user/me`, {
+export const userGetInfo = async () => await fetch(`${BASE_URL}/user/me`, {
     method: "GET",
     headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
 })
 
 
-export const updateUserInfo = async (object) => await fetch(`${BASE_URL}/user/update/${object.id}`, {
+export const userUpdateUserInfo = async (object) => await fetch(`${BASE_URL}/user/update/${object.id}`, {
     method: "POST",
     headers: {"Content-Type": "application/json", "Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
     body: JSON.stringify({
@@ -58,20 +58,20 @@ export const updateUserInfo = async (object) => await fetch(`${BASE_URL}/user/up
     })
 })
 
-export const getPageableUser = async (object) =>
+export const adminGetPageableUser = async (object) =>
     await fetch(`${BASE_URL}/user?page=${object.page}&size=${object.size}&sort=${object.sortBy}`, {
             method: "GET",
             headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
         }
     )
 
-export const deleteUser = async (id) =>
+export const adminDeleteUser = async (id) =>
     await fetch(`${BASE_URL}/user/${id}`, {
         method: "DELETE",
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
     })
 
-export const setBalance = async (object) =>
+export const adminSetBalance = async (object) =>
     await fetch(`${BASE_URL}/user/${object.id}/balance`, {
         method: 'PATCH',
         headers: {
@@ -80,35 +80,35 @@ export const setBalance = async (object) =>
         body: object.data,
     })
 
-export const changePassword = async (object) =>
+export const userChangePassword = async (object) =>
     await fetch(`${BASE_URL}/user/password/change`, {
         method: "PATCH",
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
         body: object.data,
     })
 
-export const changeAvatar = async (object) =>
+export const userChangeAvatar = async (object) =>
     await fetch(`${BASE_URL}/user/avatar`, {
         method: "PATCH",
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
         body: object.data,
     })
 
-export const depositMoney = async (object) =>
+export const transactionDeposit = async (object) =>
     await fetch(`${BASE_URL}/transaction/deposit`, {
         method: "POST",
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
         body: object.formData,
     })
 
-export const withdrawMoney = async (object) =>
+export const transactionWithdraw = async (object) =>
     await fetch(`${BASE_URL}/transaction/withdraw`, {
         method: "POST",
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
         body: object.formData,
     })
 
-export const transferMoney = async (object) =>
+export const transactionTransfer = async (object) =>
     await fetch(`${BASE_URL}/transaction/transfer`, {
             method: "POST",
             headers: {
@@ -138,20 +138,20 @@ export const createInterest = async (object) =>
     })
 
 
-export const getPageableInterest = async (object) =>
+export const interestGetPageable = async (object) =>
     await fetch(`${BASE_URL}/interest?page=${object.page}&size=${object.size}&sort=${object.sort}`, {
         method: "GET",
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
     })
 
 
-export const deleteInterestRate = async (id) =>
+export const interestDeleteRate = async (id) =>
     await fetch(`${BASE_URL}/interest/${id}`, {
         method: "DELETE",
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
     })
 
-export const updateInterestRate = async (object) => await fetch(`${BASE_URL}/interest/${object.id}`, {
+export const interestUpdateRate = async (object) => await fetch(`${BASE_URL}/interest/${object.id}`, {
     method: "PUT",
     headers: {"Content-Type": "application/json", "Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
     body: JSON.stringify({
@@ -159,5 +159,25 @@ export const updateInterestRate = async (object) => await fetch(`${BASE_URL}/int
         instantRate: object.instantRate,
         duration: object.duration,
         type: object.type,
+    })
+})
+
+export const transactionCreateLoan = async (object) => await fetch(`${BASE_URL}/transaction/loan`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json", "Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
+    body: JSON.stringify({
+        amount: object.amount,
+        interestId: object.interestId,
+    })
+})
+
+export const transactionCreateSaving = async (object) => await fetch(`${BASE_URL}/transaction/saving`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json", "Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
+    body: JSON.stringify({
+        amount: object.amount,
+        hasMaturity: object.hasMaturity,
+        maturityWithProfit: object.maturityWithProfit,
+        interestId: object.interestId
     })
 })
