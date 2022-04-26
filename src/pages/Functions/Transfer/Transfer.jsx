@@ -6,7 +6,7 @@ import "../form.css"
 import AnimatedPage from "../../../utils/AnimatedPage";
 
 const Transfer = (object) => {
-    const {userInfo} = object.object
+    const {isSessionExpired, userInfo} = object.object
     const [receiverPhoneNumber, setReceiverPhoneNumber] = useState("")
     const [receiverEmail, setReceiverEmail] = useState("")
     const [money, setMoney] = useState(0.0)
@@ -40,24 +40,36 @@ const Transfer = (object) => {
                                 onOk: async () => {
                                     let formData = new FormData();
                                     formData.append("amount", money + "");
-                                    const res = await transactionTransfer({
-                                        amount: money,
-                                        toAccount: receiverPhoneNumber
-                                    })
-                                    if (!res.ok) Modal.error({
-                                        title: "Can not transfer money!",
-                                        onOk: () => Modal.destroyAll()
-                                    })
-                                    else {
-                                        const newUserInfo = await (await userGetInfo()).json()
-                                        window.localStorage.setItem(USER_INFO, JSON.stringify(newUserInfo.data))
-                                        userInfo.set(JSON.stringify(newUserInfo.data))
-                                        Modal.success({
-                                            title: "Transfer successful!", onOk: () => {
-                                                Modal.destroyAll()
-                                                setMoney(0)
-                                            }
+                                    try {
+                                        const res = await transactionTransfer({
+                                            amount: money,
+                                            toAccount: receiverPhoneNumber
                                         })
+                                        if (!res.ok) Modal.error({
+                                            title: "Can not transfer money!",
+                                            onOk: () => Modal.destroyAll()
+                                        })
+                                        else {
+                                            const newUserInfo = await (await userGetInfo()).json()
+                                            window.localStorage.setItem(USER_INFO, JSON.stringify(newUserInfo.data))
+                                            userInfo.set(JSON.stringify(newUserInfo.data))
+                                            Modal.success({
+                                                title: "Transfer successful!", onOk: () => {
+                                                    Modal.destroyAll()
+                                                    setMoney(0)
+                                                }
+                                            })
+                                        }
+                                    } catch (TypeError) {
+                                        Modal.error(
+                                            {
+                                                title: "Login session expired",
+                                                content: "Please login again",
+                                                onOk: () => {
+                                                    isSessionExpired.set(true)
+                                                    Modal.destroyAll()
+                                                }
+                                            },)
                                     }
                                 }
                             }

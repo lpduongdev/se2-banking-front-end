@@ -116,6 +116,7 @@ const Saving = (object) => {
                                                     content: "Please login again",
                                                     onOk: () => {
                                                         isSessionExpired.set(true)
+                                                        Modal.destroyAll()
                                                     }
                                                 },)
                                         }

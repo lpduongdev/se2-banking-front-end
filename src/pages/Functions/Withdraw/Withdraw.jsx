@@ -6,7 +6,7 @@ import {USER_INFO} from "../../../const/key_storage";
 import {userGetInfo, transactionWithdraw} from "../../../api/api_config";
 
 const Withdraw = (object) => {
-    const userInfo = object.object
+    const {isSessionExpired, userInfo} = object.object
     const [money, setMoney] = useState(0.0)
 
     return (
@@ -27,23 +27,35 @@ const Withdraw = (object) => {
                             onOk: async () => {
                                 let formData = new FormData();
                                 formData.append("amount", money + "");
-                                const res = await transactionWithdraw({formData: formData})
-                                if (!res.ok) Modal.error({
-                                    title: "Can not deposit money!",
-                                    onOk: () => Modal.destroyAll()
-                                })
-                                else {
-                                    const json = await res.json()
-                                    const newUserInfo = await (await userGetInfo()).json()
-                                    window.localStorage.setItem(USER_INFO, JSON.stringify(newUserInfo.data))
-                                    userInfo.set(JSON.stringify(newUserInfo.data))
-                                    Modal.success({
-                                        title: "Withdraw successful!", onOk: () => {
-                                            Modal.destroyAll()
-                                            setMoney(0)
-
-                                        }
+                                try {
+                                    const res = await transactionWithdraw({formData: formData})
+                                    if (!res.ok) Modal.error({
+                                        title: "Can not deposit money!",
+                                        onOk: () => Modal.destroyAll()
                                     })
+                                    else {
+                                        const json = await res.json()
+                                        const newUserInfo = await (await userGetInfo()).json()
+                                        window.localStorage.setItem(USER_INFO, JSON.stringify(newUserInfo.data))
+                                        userInfo.set(JSON.stringify(newUserInfo.data))
+                                        Modal.success({
+                                            title: "Withdraw successful!", onOk: () => {
+                                                Modal.destroyAll()
+                                                setMoney(0)
+
+                                            }
+                                        })
+                                    }
+                                } catch (TypeError) {
+                                    Modal.error(
+                                        {
+                                            title: "Login session expired",
+                                            content: "Please login again",
+                                            onOk: () => {
+                                                isSessionExpired.set(true)
+                                                Modal.destroyAll()
+                                            }
+                                        },)
                                 }
                             }
                         })

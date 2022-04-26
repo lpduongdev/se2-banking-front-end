@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import "./Home.css"
 import AnimatedPage from "../../utils/AnimatedPage"
 import 'rc-banner-anim/assets/index.css';
@@ -60,22 +60,31 @@ const Home = () => {
                         </div>
                     </div>
                 </Card>
-                <div className="content left" style={{margin: 20 ,padding: 80, background: "white", borderRadius: 15}}>
-                    <Image preview={false} src={"https://creditcard.axiomthemes.com/wp-content/uploads/2017/06/img_protected.png"}/>
+                <div className="content left" style={{margin: 20, padding: 80, background: "white", borderRadius: 15}}>
+                    <Image preview={false}
+                           src={"https://creditcard.axiomthemes.com/wp-content/uploads/2017/06/img_protected.png"}/>
                     <div className="content-text-wrapper">
                         <h2>Your Day is Protected</h2>
-                        <p>In contrast, credit cards allow the consumers a continuing balance of debt, subject to interest being charged.
+                        <p>In contrast, credit cards allow the consumers a continuing balance of debt, subject to
+                            interest being charged.
 
-                            A credit card also differs from a cash card, which can be used like currency by the owner of the card. A credit card differs from a charge card also in that a credit card typically involves a third-party entity that pays the seller and is reimbursed by the buyer, whereas a charge card.</p>
+                            A credit card also differs from a cash card, which can be used like currency by the
+                            owner of the card. A credit card differs from a charge card also in that a credit card
+                            typically involves a third-party entity that pays the seller and is reimbursed by the
+                            buyer, whereas a charge card.</p>
                     </div>
                 </div>
-                <div className="content right" style={{margin: 20 ,padding: 80, background: "white", borderRadius: 15}}>
-                    <Image preview={false} src={"https://creditcard.axiomthemes.com/wp-content/uploads/2017/06/map.png"}/>
+                <div className="content right" style={{margin: 20, padding: 80, background: "white", borderRadius: 15}}>
+                    <Image preview={false}
+                           src={"https://creditcard.axiomthemes.com/wp-content/uploads/2017/06/map.png"}/>
                     <div className="content-text-wrapper">
                         <h2>We are Almost Everywhere</h2>
-                        <p>A credit card is a payment card issued to users (cardholders) to enable the cardholder to pay a merchant for goods and services.
+                        <p>A credit card is a payment card issued to users (cardholders) to enable the cardholder to pay
+                            a merchant for goods and services.
 
-                            The card issuer (usually a bank) creates a revolving account and grants a line of credit to the cardholder, from which the cardholder can borrow money for payment to a merchant or as a cash advance.</p>
+                            The card issuer (usually a bank) creates a revolving account and grants a line of credit to
+                            the cardholder, from which the cardholder can borrow money for payment to a merchant or as a
+                            cash advance.</p>
                     </div>
                 </div>
             </div>

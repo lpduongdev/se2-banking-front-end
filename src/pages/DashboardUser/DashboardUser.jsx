@@ -211,6 +211,8 @@ const DashboardUser = () => {
                                         onClick={() => Modal.info({
                                             centered: true,
                                             icon: <div/>,
+                                            style: {width: "auto"},
+                                            width: "auto",
                                             okButtonProps: {style: {display: "none"}},
                                             closable: true,
                                             content: (<Saving object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>)
@@ -224,6 +226,7 @@ const DashboardUser = () => {
                                             icon: <div/>,
                                             okButtonProps: {style: {display: "none"}},
                                             closable: true,
+                                            width: "auto",
                                             content: (<Loan object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>)
                                         })}size={"large"}><BankFilled/> Money Loan</Button>
 

@@ -1,4 +1,4 @@
-import { Button,Form,InputNumber, Modal} from "antd";
+import {Button, Form, InputNumber, Modal} from "antd";
 import React, {useState} from "react";
 import {USER_INFO} from "../../../const/key_storage";
 import {transactionDeposit, userGetInfo} from "../../../api/api_config";
@@ -6,7 +6,7 @@ import "../form.css"
 import AnimatedPage from "../../../utils/AnimatedPage";
 
 const Deposit = (object) => {
-    const userInfo = object.object
+    const {isSessionExpired, userInfo} = object.object
     const [money, setMoney] = useState(0.0)
 
     return (
@@ -27,22 +27,34 @@ const Deposit = (object) => {
                             onOk: async () => {
                                 let formData = new FormData();
                                 formData.append("amount", money + "");
-                                const res = await transactionDeposit({formData: formData})
-                                if (!res.ok) Modal.error({
-                                    title: "Can not deposit money!",
-                                    onOk: () => Modal.destroyAll()
-                                })
-                                else {
-                                    const newUserInfo = await (await userGetInfo()).json()
-                                    window.localStorage.setItem(USER_INFO, JSON.stringify(newUserInfo.data))
-                                    console.log(userInfo)
-                                    userInfo.set(JSON.stringify(newUserInfo.data))
-                                    Modal.success({
-                                        title: "Deposit successful!", onOk: () => {
-                                            Modal.destroyAll()
-                                            setMoney(0)
-                                        }
+                                try {
+                                    const res = await transactionDeposit({formData: formData})
+
+                                    if (!res.ok) Modal.error({
+                                        title: "Can not deposit money!",
+                                        onOk: () => Modal.destroyAll()
                                     })
+                                    else {
+                                        const newUserInfo = await (await userGetInfo()).json()
+                                        window.localStorage.setItem(USER_INFO, JSON.stringify(newUserInfo.data))
+                                        userInfo.set(JSON.stringify(newUserInfo.data))
+                                        Modal.success({
+                                            title: "Deposit successful!", onOk: () => {
+                                                Modal.destroyAll()
+                                                setMoney(0)
+                                            }
+                                        })
+                                    }
+                                } catch (TypeError) {
+                                    Modal.error(
+                                        {
+                                            title: "Login session expired",
+                                            content: "Please login again",
+                                            onOk: () => {
+                                                isSessionExpired.set(true)
+                                                Modal.destroyAll()
+                                            }
+                                        },)
                                 }
                             }
                         })
