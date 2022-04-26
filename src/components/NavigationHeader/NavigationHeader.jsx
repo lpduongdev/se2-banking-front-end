@@ -85,8 +85,16 @@ const NavigationHeader = () => {
             zIndex: 1000,
             height: 70,
         }}>
-            <Image preview={false} height={60} src={require("../../assets/images/main-logo.webp")}/>
-            <Menu style={{flexGrow: 2, display: "flex", justifyContent: "flex-end", borderBottom: "none"}} mode="horizontal">
+            <div style={{
+                display: "flex",
+                flexDirection: "row",
+                margin: 0
+            }}>
+                <Image style={{display: "flex", alignItems: "center"}} preview={false} height={60} src={"ic_hanu_banking.png"}/>
+                <h2 style={{margin: 0, color: "#6b6b6b"}}><b style={{color :"#58b893"}}>HANU</b> Banking</h2>
+            </div>
+            <Menu style={{flexGrow: 2, display: "flex", justifyContent: "flex-end", borderBottom: "none"}}
+                  mode="horizontal">
                 <Menu.Item key="0">
                     <NavLink exact activeClassName="navbar__tab-active" className="navbar__tab" to="/">Home</NavLink>
                 </Menu.Item>
@@ -103,19 +111,20 @@ const NavigationHeader = () => {
                 </Menu.Item>
                 <Menu.Item key="3">
                     {!window.localStorage.getItem(USER_INFO) &&
-                    <NavLink exact activeClassName="navbar__tab-active" className="navbar__tab"
-                             to={URL_LOGIN}>Login</NavLink>}
+                        <NavLink exact activeClassName="navbar__tab-active" className="navbar__tab"
+                                 to={URL_LOGIN}>Login</NavLink>}
                 </Menu.Item>
                 <Menu.Item key="4">
                     {window.localStorage.getItem(USER_INFO) &&
-                    <Dropdown placement={"bottom"} overlay={userMenu}>
-                        <NavLink style={{padding: 0}} exact
-                                 to={isAdmin.get? URL_ADMIN_DASHBOARD : URL_USER_DASHBOARD}>
-                            <Meta
-                                avatar={<Avatar src={JSON.parse(window.localStorage.getItem(USER_INFO)).user.avatar !== null? JSON.parse(window.localStorage.getItem(USER_INFO)).user.avatar :"https://joeschmoe.io/api/v1/random"}/>}
-                                title={JSON.parse(window.localStorage.getItem(USER_INFO)).user.firstName}/>
-                        </NavLink>
-                    </Dropdown>}
+                        <Dropdown placement={"bottom"} overlay={userMenu}>
+                            <NavLink style={{padding: 0}} exact
+                                     to={isAdmin.get ? URL_ADMIN_DASHBOARD : URL_USER_DASHBOARD}>
+                                <Meta
+                                    avatar={<Avatar
+                                        src={JSON.parse(window.localStorage.getItem(USER_INFO)).user.avatar !== null ? JSON.parse(window.localStorage.getItem(USER_INFO)).user.avatar : "https://joeschmoe.io/api/v1/random"}/>}
+                                    title={JSON.parse(window.localStorage.getItem(USER_INFO)).user.firstName}/>
+                            </NavLink>
+                        </Dropdown>}
                 </Menu.Item>
             </Menu>
         </Header>
