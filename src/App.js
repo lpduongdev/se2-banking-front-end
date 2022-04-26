@@ -6,6 +6,7 @@ import {SharedProvider} from "./utils/Context";
 import {useEffect, useState} from "react";
 import {USER_INFO, IS_ADMIN, TOKEN} from "./const/key_storage";
 import {
+    URL_ABOUT_US,
     URL_ADMIN_DASHBOARD,
     URL_DEPOSIT,
     URL_HOME, URL_LOAN,
@@ -20,6 +21,7 @@ import DashboardAdmin from "./pages/DashboardAdmin/DashboardAdmin";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import NavigationHeader from "./components/NavigationHeader/NavigationHeader";
 import FunctionsCard from "./pages/Functions/FunctionsCard";
+import AboutUs from "./pages/AboutUs/AboutUs";
 
 function App() {
     const [isAdmin, setIsAdmin] = useState(false)
@@ -27,7 +29,6 @@ function App() {
     const [userInfo, setUserInfo] = useState(window.localStorage.getItem(USER_INFO))
     const [isSessionExpired, setIsSessionExpired] = useState(false)
     const [showHeader, setShowHeader] = useState(true)
-    const [showFooter, setShowFooter] = useState(true)
 
     const history = useHistory();
     const location = useLocation();
@@ -84,6 +85,7 @@ function App() {
                     <Switch location={location} key={location.pathname}>
                         <Route exact path={URL_HOME} component={Home}/>
                         <Route exact path={URL_USER_DASHBOARD} component={DashboardUser}/>
+                        <Route exact path={URL_ABOUT_US} component={AboutUs}/>
                         {!token && !userInfo && <Route exact path={URL_LOGIN} component={LoginPage}/>}
                         {token && userInfo && <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>}
                         {token && userInfo && <Route exact

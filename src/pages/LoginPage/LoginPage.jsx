@@ -78,7 +78,6 @@ const LoginPage = () => {
             })
         } else {
             const json = await res.json()
-
             const tokenString = json.data
 
             localStorage.setItem(TOKEN, tokenString)
@@ -97,6 +96,7 @@ const LoginPage = () => {
             } else {
 
                 fetchedData = await fetchedData.json();
+                console.log(fetchedData)
 
                 window.localStorage.setItem(USER_INFO, JSON.stringify(fetchedData.data))
 
