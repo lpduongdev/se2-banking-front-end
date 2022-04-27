@@ -1,11 +1,9 @@
-import React, {useContext} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import {Button} from 'antd';
 import BannerImage from './BannerImage';
-import {URL_HOME} from "../../../const/routing_address";
+import {URL_ABOUT_US} from "../../../const/routing_address";
 import {useHistory} from "react-router-dom";
-import SharedContext from "../../../utils/Context";
 
 const Banner = () => {
     const history = useHistory()
@@ -28,7 +26,7 @@ const Banner = () => {
                         <Button
                             type="primary"
                             size={"large"}
-                            onClick={() => {}}>
+                            onClick={() => history.push(URL_ABOUT_US)}>
                             LEARN MORE
                         </Button>
                     </span>

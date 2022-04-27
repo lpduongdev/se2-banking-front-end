@@ -13,7 +13,7 @@ import {
 } from "../../api/api_config";
 import {USER_INFO, IS_ADMIN, TOKEN} from "../../const/key_storage";
 import {useHistory} from "react-router";
-import {Button, Card, Form, Image, Input, InputNumber, Modal} from "antd";
+import {Button, Card, Form, Input, InputNumber, Modal} from "antd";
 
 
 const LoginPage = () => {
@@ -62,67 +62,78 @@ const LoginPage = () => {
 
 
         const object = {phoneNumber: phone, password: password}
-        const res = await login(object)
 
+        try {
+            const res = await login(object)
 
-        setPhone("")
-        setPassword("")
+            setPhone("")
+            setPassword("")
 
-        setIsLoading(false)
-        if (!res.ok) {
-            Modal.warning({
-                title: 'Oops',
-                content: "Wrong username or phone number",
-                onOk() {
-                },
-            })
-        } else {
-            const json = await res.json()
-            const tokenString = json.data
-
-            localStorage.setItem(TOKEN, tokenString)
-
-            token.set(tokenString)
-
-            let fetchedData = await userGetInfo()
-
-            if (!fetchedData.ok) {
-                Modal.error({
-                    title: "Oops!",
-                    content: "Can't get userdata, please try again",
+            setIsLoading(false)
+            if (!res.ok) {
+                Modal.warning({
+                    title: 'Oops',
+                    content: "Wrong username or phone number",
                     onOk() {
-                    }
+                    },
                 })
             } else {
+                const json = await res.json()
+                const tokenString = json.data
 
-                fetchedData = await fetchedData.json();
-                console.log(fetchedData)
+                localStorage.setItem(TOKEN, tokenString)
 
-                window.localStorage.setItem(USER_INFO, JSON.stringify(fetchedData.data))
+                token.set(tokenString)
 
-                userInfo.set(JSON.stringify(fetchedData.data))
+                let fetchedData = await userGetInfo()
 
-                isAdmin.set(checkAdmin(fetchedData.data))
+                if (!fetchedData.ok) {
+                    Modal.error({
+                        title: "Oops!",
+                        content: "Can't get userdata, please try again",
+                        onOk() {
+                        }
+                    })
+                } else {
 
-                if (checkAdmin(fetchedData.data))
+                    fetchedData = await fetchedData.json();
 
-                    localStorage.setItem(IS_ADMIN, "true")
+                    window.localStorage.setItem(USER_INFO, JSON.stringify(fetchedData.data))
 
-                else
+                    userInfo.set(JSON.stringify(fetchedData.data))
 
-                    localStorage.setItem(IS_ADMIN, "false")
+                    isAdmin.set(checkAdmin(fetchedData.data))
 
-                history.push(isAdmin.get ? URL_ADMIN_DASHBOARD : URL_USER_DASHBOARD)
+                    if (checkAdmin(fetchedData.data))
+
+                        localStorage.setItem(IS_ADMIN, "true")
+
+                    else
+
+                        localStorage.setItem(IS_ADMIN, "false")
+
+                    history.push(isAdmin.get ? URL_ADMIN_DASHBOARD : URL_USER_DASHBOARD)
+                }
             }
+        } catch (TypeError) {
+            Modal.error(
+                {
+                    title: "Login session expired",
+                    content: "Please login again",
+                    onOk: () => {
+                        Modal.error({
+                            title: "Please try again",
+                            content: "Error when communicate with server API"
+                        })
+                    }
+                },)
         }
     }
 
     const checkAdmin = (fetchedData) => {
-        for (const item of fetchedData.roles) {
-            console.log("AdminCheck: " + (item.name === "admin"))
+        for (const item of fetchedData.roles)
             if (item.name === "admin")
                 return true
-        }
         return false
     }
 
@@ -282,14 +293,15 @@ const LoginPage = () => {
                         initialValue={data.email}
                         rules={[{required: true, message: 'Please input your password!'}]}>
                         <Input.Password autoComplete={"password"}
-                            onChange={(e) => data.password = e.currentTarget.value}/>
+                                        onChange={(e) => data.password = e.currentTarget.value}/>
                     </Form.Item>
                     <Form.Item
                         label="Confirm your password:"
                         name="passwordConfirm"
                         initialValue={data.passwordConfirm}
                         rules={[{required: true, message: 'Please input your password confirm!'}]}>
-                        <Input.Password autoComplete={"passwordConfirm"} onChange={(e) => data.passwordConfirm = e.currentTarget.value}/>
+                        <Input.Password autoComplete={"passwordConfirm"}
+                                        onChange={(e) => data.passwordConfirm = e.currentTarget.value}/>
                     </Form.Item>
                     <Form.Item
                         label="Administration Code:"
@@ -338,13 +350,19 @@ const LoginPage = () => {
                         <Input onChange={(e) => data.address = e.currentTarget.value}/>
                     </Form.Item>
                     <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                        <Button loading={isSubmitting} size={"large"} type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                        <Button style={{marginLeft: 50}} size={"large"} htmlType="button"
-                                onClick={() => Modal.destroyAll()}>
-                            Cancel
-                        </Button>
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "flex-start",
+                            alignItems: "center"
+                        }}>
+                            <Button loading={isSubmitting} size={"large"} type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                            <Button style={{marginLeft: 50}} size={"large"} htmlType="button"
+                                    onClick={() => Modal.destroyAll()}>
+                                Cancel
+                            </Button>
+                        </div>
                     </Form.Item>
                 </Form>),
         })
@@ -372,13 +390,16 @@ const LoginPage = () => {
                         <Form.Item
                             rules={[{required: true, message: 'Please enter password!'}]}>
                             <h3>Password:</h3>
-                            <Input.Password disabled={isLoading} autoComplete="Password" value={password} onChange={(e) => {
-                                setPassword(e.currentTarget.value)
-                            }}/>
+                            <Input.Password disabled={isLoading} autoComplete="Password" value={password}
+                                            onChange={(e) => {
+                                                setPassword(e.currentTarget.value)
+                                            }}/>
                         </Form.Item>
                         <Button type={"primary"} size={"large"} style={{textAlign: "center"}} loading={isLoading}
                                 htmlType="submit">Login</Button>
-                        <p style={{marginTop: 20}}>Haven't got account? <a disabled={isLoading} onClick={isLoading? () => {} :  onRegisterForm}>Register now</a></p>
+                        <p style={{marginTop: 20}}>Haven't got account? <a disabled={isLoading}
+                                                                           onClick={isLoading ? () => {
+                                                                           } : onRegisterForm}>Register now</a></p>
                     </Form>
                 </Card>
             </div>
