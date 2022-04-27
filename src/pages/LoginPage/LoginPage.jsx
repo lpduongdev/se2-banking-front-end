@@ -154,14 +154,32 @@ const LoginPage = () => {
                 }
             }
             if (item === "password") {
+                const p = data.password,
+                    errors = [];
+                if (p.length < 8) {
+                    errors.push("Your password must be at least 8 characters");
+                }
+                if (p.search(/[a-z]/i) < 0) {
+                    errors.push("Your password must contain at least one letter.");
+                }
+                if (p.search(/[0-9]/) < 0) {
+                    errors.push("Your password must contain at least one digit.");
+                }
+                if (errors.length > 0) {
+                    Modal.error({content: errors.join("\n")});
+                    return false;
+                }
                 if (data.password !== data.passwordConfirm) {
                     Modal.error({title: "Your password confirm doesn't match"})
                     return false;
                 }
             }
             if (item === "email") {
-                console.log(/\S+@\S+\.\S+/.test(data.email))
-                if (!(/\S+@\S+\.\S+/.test(data.email))) {
+                if (!String(data.email)
+                    .toLowerCase()
+                    .match(
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    )) {
                     Modal.error({title: "Invalid email type"})
                     return false;
                 }

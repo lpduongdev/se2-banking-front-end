@@ -1,4 +1,4 @@
-import {Avatar, Card, Image} from "antd";
+import {Avatar, Image} from "antd";
 import "./AboutUs.css"
 import {HeartFilled} from "@ant-design/icons";
 
@@ -18,38 +18,38 @@ const AboutUs = () => {
                 <div className="contributors-list">
                     <div className="contributor__main-dev">
                         <div className="contributor">
-                            <Avatar size={avatarSize+90} src={av_link_Rain} preview={false}/>
+                            <Avatar size={avatarSize+90} src={av_link_Rain} preview={"false"}/>
                             <p>Rain</p>
                             <span>Main front-end developer, UI/UX designer, sub backend-developer</span>
                         </div>
                         <div className="contributor">
-                            <Avatar size={avatarSize+90} src={av_link_Nguyen} preview={false}/>
+                            <Avatar size={avatarSize+90} src={av_link_Nguyen} preview={"false"}/>
                             <p>Nguyen Tran</p>
                             <span>Main back-end developer, database designer</span>
                         </div>
                     </div>
                     <div className="contributor__sub-dev">
                         <div className="contributor">
-                            <Avatar size={avatarSize} src={av_link_Hoang} preview={false}/>
+                            <Avatar size={avatarSize} src={av_link_Hoang} preview={"false"}/>
                             <p>Tuyen Hoang</p>
                             <span>Project manager, sub tester, sub front-end developer</span>
                         </div>
                         <div className="contributor">
-                            <Avatar size={avatarSize} src={av_link_Long} preview={false}/>
+                            <Avatar size={avatarSize} src={av_link_Long} preview={"false"}/>
                             <p>Truong Hoang Long</p>
                             <span>Main tester, sub backend developer,</span>
                         </div>
                         <div className="contributor">
-                            <Avatar size={avatarSize} src={av_link_Huy} preview={false}/>
+                            <Avatar size={avatarSize} src={av_link_Huy} preview={"false"}/>
                             <p>Nguyen Duc Huy</p>
                             <span>Sub database designer, UI designer, sub front-end developer</span>
                         </div>
                         <div className="contributor">
-                            <Avatar size={avatarSize} src={av_link_Linh} preview={false}/>
+                            <Avatar size={avatarSize} src={av_link_Linh} preview={"false"}/>
                             <p>Khanh Linh</p>
                         </div>
                         <div className="contributor">
-                            <Avatar size={avatarSize} src={"https://joeschmoe.io/api/v1/random"} preview={false}/>
+                            <Avatar size={avatarSize} src={"https://joeschmoe.io/api/v1/random"} preview={"false"}/>
                             <p>Van Duy</p>
                         </div>
                     </div>
@@ -59,7 +59,7 @@ const AboutUs = () => {
                 <h2>About project</h2>
                 <div className="about-project__container">
                     <div className="about-project__img-container">
-                        <Image height={300} src={"https://yt3.ggpht.com/ytc/AKedOLTWM3d7_R1ggXrUWPYah8spSwoTHl8nTG0g5Vk97g=s900-c-k-c0x00ffffff-no-rj"} preview={false}/>
+                        <Image height={300} src={"https://yt3.ggpht.com/ytc/AKedOLTWM3d7_R1ggXrUWPYah8spSwoTHl8nTG0g5Vk97g=s900-c-k-c0x00ffffff-no-rj"} preview={"false"}/>
                     </div>
                     <div className="about-project__text-container">
                         <h2>Made by <HeartFilled/> by FIT-er</h2>

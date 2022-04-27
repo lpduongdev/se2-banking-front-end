@@ -45,7 +45,7 @@ const UserList = () => {
             })
             setUsers(newUsers);
             setTotal(json.data.totalElements);
-        } catch (TypeError  ) {
+        } catch (TypeError) {
             Modal.error(
                 {
                     title: "Login session expired",
@@ -184,10 +184,10 @@ const UserList = () => {
                         await getPaginationData()
                         if (isUpdatedInfo)
                             Modal.success({
-                            title: "Completed",
-                            content: "Created new user account successfully!",
-                            onOk: () => Modal.destroyAll()
-                        })
+                                title: "Completed",
+                                content: "Created new user account successfully!",
+                                onOk: () => Modal.destroyAll()
+                            })
                         isSubmitting = false
                     }}
                     autoComplete="on">
@@ -296,8 +296,19 @@ const UserList = () => {
                 }
             }
             if (item === "password") {
-                if (!new RegExp("/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/").test(data.password)) {
-                    Modal.error({title: "Your password must have at least one number, special character, uppercase and lowercase words"})
+                const p = data.password,
+                    errors = [];
+                if (p.length < 8) {
+                    errors.push("Your password must be at least 8 characters");
+                }
+                if (p.search(/[a-z]/i) < 0) {
+                    errors.push("Your password must contain at least one letter.");
+                }
+                if (p.search(/[0-9]/) < 0) {
+                    errors.push("Your password must contain at least one digit.");
+                }
+                if (errors.length > 0) {
+                    Modal.error({content: errors.join("\n")});
                     return false;
                 }
                 if (data.password !== data.passwordConfirm) {
@@ -306,7 +317,11 @@ const UserList = () => {
                 }
             }
             if (item === "email") {
-                if (!(new RegExp("/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\\.)+[A-Za-z]+$/\n").test(data.email))) {
+                if (!String(data.email)
+                    .toLowerCase()
+                    .match(
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    )) {
                     Modal.error({title: "Invalid email type"})
                     return false;
                 }
@@ -446,7 +461,8 @@ const UserList = () => {
 
     return (
         <AnimatedPage>
-            <Card headStyle={{textAlign: "center", fontWeight: "bold"}} title="User list" bordered={false} style={{width: "100%"}}>
+            <Card headStyle={{textAlign: "center", fontWeight: "bold"}} title="User list" bordered={false}
+                  style={{width: "100%"}}>
                 <Button shape={['round']} style={{marginBottom: 30}} type="primary" onClick={onAddUser}>Add new
                     user</Button>
                 <Table
