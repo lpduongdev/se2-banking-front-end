@@ -47,7 +47,6 @@ const TransactionHistory = (object) => {
             }
             const json = await res.json();
             setTransactionList(json.data.content);
-
             setTotal(json.data.totalElements);
         } catch (TypeError) {
             Modal.error(
@@ -191,6 +190,20 @@ const TransactionHistory = (object) => {
                                         <p style={{color: 'green'}}>&nbsp;[COMPLETED]</p> :
                                         <p><a onClick={() => onReturnLoan(record)}>&nbsp;(Return loan)</a></p>}
                                     </div>)
+                                if (record.transactionType === "withdraw_saving") component = (
+                                    <div style={childStyle}><p>Withdrew saving with amount</p><p style={{
+                                        color: 'green',
+                                        fontWeight: "bold"
+                                    }}>&nbsp;${(record.balanceAfter - record.balanceBefore).toFixed(2)}&nbsp;</p>
+                                        <p style={{color: 'green'}}>&nbsp;[COMPLETED]</p>
+                                    </div>)
+                                if (record.transactionType === "return_loan") component = (
+                                    <div style={childStyle}><p>Returned loan with amount</p><p style={{
+                                        color: 'green',
+                                        fontWeight: "bold"
+                                    }}>&nbsp;${(record.balanceBefore - record.balanceAfter).toFixed(2)}&nbsp;</p>
+                                        <p style={{color: 'green'}}>&nbsp;[COMPLETED]</p>
+                                    </div>)
                                 return <>{component}</>
                             }
                         },
@@ -201,15 +214,17 @@ const TransactionHistory = (object) => {
                             render: (text) => {
                                 let color
                                 let newText = text
-                                if (text === "send_transfer" || text === "start_saving" || text === "withdraw") {
+                                if (text === "send_transfer" || text === "start_saving" || text === "withdraw" || text === "withdraw_saving") {
                                     color = "red"
                                     if (text === "send_transfer") newText = "Send"
                                     if (text === "start_saving") newText = "Saving"
+                                    if (text === "withdraw_saving") newText = "Completed saving"
                                 }
-                                if (text === "receive_transfer" || text === "start_loan" || text === "deposit") {
+                                if (text === "receive_transfer" || text === "start_loan" || text === "deposit" || text === "return_loan") {
                                     color = "green"
                                     if (text === "receive_transfer") newText = "Received"
                                     if (text === "start_loan") newText = "Loan"
+                                    if (text === "return_loan") newText = "Completed Loan"
                                 }
                                 return (<Tag color={color} key={text}>
                                     {newText.toUpperCase()}
