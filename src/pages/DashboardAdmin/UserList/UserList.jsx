@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Card, Button, Modal, Table, Space, Form, Input, InputNumber, Dropdown, Menu, Tag} from "antd";
+import {Card, Button, Modal, Table, Space, Form, Input, InputNumber, Dropdown, Menu} from "antd";
 import {
     adminDeleteUser,
     adminGetPageableUser,
@@ -12,7 +12,7 @@ import "../Form.css"
 import SharedContext from "../../../utils/Context";
 import {USER_INFO} from "../../../const/key_storage";
 import AnimatedPage from "../../../utils/AnimatedPage";
-import TransactionHistory from "./TransactionHistory";
+import TransactionHistory from "../../Functions/TransactionHistory/TransactionHistory";
 
 
 const UserList = () => {

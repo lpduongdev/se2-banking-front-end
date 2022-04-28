@@ -22,6 +22,7 @@ import Deposit from "../Functions/Deposit/Deposit";
 import Withdraw from "../Functions/Withdraw/Withdraw";
 import Saving from "../Functions/Saving/Saving";
 import Loan from "../Functions/Loan/Loan";
+import TransactionHistory from "../Functions/TransactionHistory/TransactionHistory";
 
 const DashboardUser = () => {
     const {userInfo, isAdmin, isSessionExpired} = useContext(SharedContext)
@@ -232,7 +233,14 @@ const DashboardUser = () => {
 
                             </Col>
                             <Col>
-                                <Button className="btn-item" size={"large"}><InteractionFilled/> Transaction
+                                <Button className="btn-item" onClick={() => Modal.info({
+                                    centered: true,
+                                    icon: <div/>,
+                                    okButtonProps: {style: {display: "none"}},
+                                    closable: true,
+                                    width: "auto",
+                                    content: (<TransactionHistory object={{isSessionExpired: isSessionExpired}}/>)
+                                }) } size={"large"}><InteractionFilled/> Transaction
                                     History</Button>
 
                             </Col>

@@ -78,13 +78,15 @@ const InterestManagement = () => {
                 cancelText: "Nope",
                 onOk: async () => {
                     const res = await interestDeleteRate(id);
-                    if (!res.ok) Modal.error({
-                        disableEnforceFocus: true,
-                        title: "Oops!",
-                        content: "Delete failed",
-                        onOk() {
-                        }
-                    })
+                    if (!res.ok) {
+                        Modal.error({
+                            disableEnforceFocus: true,
+                            title: "Oops!",
+                            content: (await res.json()).message,
+                            onOk() {
+                            }
+                        })
+                    }
                     else
                         Modal.success({
                             title: "Completed",

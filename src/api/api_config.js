@@ -190,3 +190,12 @@ export const getTransactionsById = async (object) => {
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
     })
 }
+
+export const getMyTransactionHistory = async (object) => {
+    let URL = `/transaction/histories/me?page=${object.page}&size=${object.size}&sort=${object.sortBy}&type=${object.type}`
+    if (!object.type) URL = `/transaction/histories/me?page=${object.page}&size=${object.size}&sort=${object.sortBy}`
+    return await fetch(`${BASE_URL}${URL}`, {
+        method: "GET",
+        headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
+    })
+}

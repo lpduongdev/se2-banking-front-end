@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {
+    getMyTransactionHistory,
     getTransactionsById,
 } from "../../../api/api_config";
 import {Card, Modal, Table, Tag} from "antd";
@@ -27,13 +28,23 @@ const TransactionHistory = (object) => {
     const getPaginationData = async () => {
         setIsLoading(true)
         try {
-            const res = await getTransactionsById({
-                id: id,
-                page: page,
-                size: size,
-                sortBy: SORT_TYPE,
-                type: TYPE,
-            })
+            let res;
+            if (id) {
+                res = await getTransactionsById({
+                    id: id,
+                    page: page,
+                    size: size,
+                    sortBy: SORT_TYPE,
+                    type: TYPE,
+                })
+            } else {
+                res = await getMyTransactionHistory({
+                    page: page,
+                    size: size,
+                    sortBy: SORT_TYPE,
+                    type: TYPE,
+                })
+            }
             const json = await res.json();
             setTransactionList(json.data.content);
 
