@@ -120,77 +120,77 @@ const UserList = () => {
                         let registerAccountResponse = null;
 
                         try {
-                        if (data.code) registerAccountResponse = await registerAdmin({
-                            phoneNumber: data.phoneNumber,
-                            password: data.password,
-                            code: data.code,
-                        })
-                        else
-                            registerAccountResponse = await registerUser({
+                            if (data.code) registerAccountResponse = await registerAdmin({
                                 phoneNumber: data.phoneNumber,
                                 password: data.password,
+                                code: data.code,
+                            })
+                            else
+                                registerAccountResponse = await registerUser({
+                                    phoneNumber: data.phoneNumber,
+                                    password: data.password,
+                                })
+
+                            if (!registerAccountResponse.ok || registerAccountResponse.status === 400) {
+                                Modal.error({
+                                    title: 'Oops',
+                                    content: (await registerAccountResponse.json()).message,
+                                    onOk: () => Modal.destroyAll()
+                                })
+                            }
+
+                            const registerAccountResponseJSON = await registerAccountResponse.json()
+                            //************************************************************************//
+
+
+                            //************************** UPDATE USER INFO ****************************//
+                            const updateUserInfoResponse = await userUpdateUserInfo({
+                                id: registerAccountResponseJSON.data.id,
+                                firstName: data.firstName,
+                                lastName: data.lastName,
+                                email: data.email,
+                                address: data.address,
+                                citizenIdentification: data.citizenIdentification
                             })
 
-                        if (!registerAccountResponse.ok || registerAccountResponse.status === 400) {
-                            Modal.error({
-                                title: 'Error',
-                                content: (await registerAccountResponse.json()).message,
-                                onOk: () => Modal.destroyAll()
+                            if (!updateUserInfoResponse.ok || updateUserInfoResponse.status === 400) {
+                                isUpdatedInfo = false
+                                Modal.error({
+                                    title: 'Oops',
+                                    content: (await updateUserInfoResponse.json()).message,
+                                    onOk: async () => {
+                                        await adminDeleteUser(registerAccountResponseJSON.data.id)
+                                        await getPaginationData();
+                                        Modal.destroyAll()
+                                    },
+                                })
+                            }
+
+                            //************************************************************************//
+
+
+                            //***********************    UPDATING BALANCE   **************************//
+                            let formData = new FormData();
+                            formData.append('balance', data.balance);
+                            const updateBalanceResponse = await adminSetBalance({
+                                id: registerAccountResponseJSON.data.id,
+                                data: formData,
                             })
-                        }
 
-                        const registerAccountResponseJSON = await registerAccountResponse.json()
-                        //************************************************************************//
-
-
-                        //************************** UPDATE USER INFO ****************************//
-                        const updateUserInfoResponse = await userUpdateUserInfo({
-                            id: registerAccountResponseJSON.data.id,
-                            firstName: data.firstName,
-                            lastName: data.lastName,
-                            email: data.email,
-                            address: data.address,
-                            citizenIdentification: data.citizenIdentification
-                        })
-
-                        if (!updateUserInfoResponse.ok || updateUserInfoResponse.status === 400) {
-                            isUpdatedInfo = false
-                            Modal.error({
-                                title: 'Oops',
-                                content: (await updateUserInfoResponse.json()).message,
-                                onOk: async () => {
-                                    await adminDeleteUser(registerAccountResponseJSON.data.id)
-                                    await getPaginationData();
-                                    Modal.destroyAll()
-                                },
-                            })
-                        }
-
-                        //************************************************************************//
-
-
-                        //***********************    UPDATING BALANCE   **************************//
-                        let formData = new FormData();
-                        formData.append('balance', data.balance);
-                        const updateBalanceResponse = await adminSetBalance({
-                            id: registerAccountResponseJSON.data.id,
-                            data: formData,
-                        })
-
-                        if (!updateBalanceResponse.ok)
-                            Modal.error({
-                                title: "Oops",
-                                content: "Please check your balance value and change it later"
-                                , onOk: () => Modal.destroyAll()
-                            })
-                        //************************************************************************//
-                        await getPaginationData()
-                        if (isUpdatedInfo)
-                            Modal.success({
-                                title: "Completed",
-                                content: "Created new user account successfully!",
-                                onOk: () => Modal.destroyAll()
-                            })
+                            if (!updateBalanceResponse.ok)
+                                Modal.error({
+                                    title: "Oops",
+                                    content: "Please check your balance value and change it later"
+                                    , onOk: () => Modal.destroyAll()
+                                })
+                            //************************************************************************//
+                            await getPaginationData()
+                            if (isUpdatedInfo)
+                                Modal.success({
+                                    title: "Completed",
+                                    content: "Created new user account successfully!",
+                                    onOk: () => Modal.destroyAll()
+                                })
                         } catch (TypeError) {
                             Modal.error(
                                 {
@@ -297,14 +297,20 @@ const UserList = () => {
         for (const item in data) {
             if (item === "phoneNumber") {
                 if (!(new RegExp("^(\\+\\d)?\\d{10}$").test(data.phoneNumber))) {
-                    Modal.error({title: "Invalid phone number"})
+                    Modal.error({
+                        title: 'Oops',
+                        content: "Invalid phone number"
+                    })
                     return false;
                 }
 
             }
             if (item === "balance") {
                 if (data.balance < 0) {
-                    Modal.error({title: "Invalid initial balance"})
+                    Modal.error({
+                        title: 'Oops',
+                        content: "Invalid initial balance"
+                    })
                     return false;
                 }
             }
@@ -321,21 +327,28 @@ const UserList = () => {
                     errors.push("Your password must contain at least one digit.");
                 }
                 if (errors.length > 0) {
-                    Modal.error({content: errors.join("\n")});
+                    Modal.error({
+                        title: 'Oops',
+                        content: errors.join("\n")
+                    });
                     return false;
                 }
                 if (data.password !== data.passwordConfirm) {
-                    Modal.error({title: "Your password confirm doesn't match"})
+                    Modal.error({
+                        title: 'Oops',
+                        content: "Your password confirm doesn't match"
+                    })
                     return false;
                 }
             }
             if (item === "email") {
                 if (!String(data.email)
                     .toLowerCase()
-                    .match(
-                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                    )) {
-                    Modal.error({title: "Invalid email type"})
+                    .match(/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm)) {
+                    Modal.error({
+                        title: 'Oops',
+                        content: "Invalid email type"
+                    })
                     return false;
                 }
             }

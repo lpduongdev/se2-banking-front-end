@@ -141,7 +141,7 @@ const LoginPage = () => {
     const checkForm = (data) => {
         for (const item in data) {
             if (item === "phoneNumber") {
-                if (data.phoneNumber.length < 9) {
+                if (!(new RegExp("^(\\+\\d)?\\d{10}$").test(data.phoneNumber))) {
                     Modal.error({title: "Phone length must higher than 8"})
                     return false;
                 }
@@ -177,9 +177,7 @@ const LoginPage = () => {
             if (item === "email") {
                 if (!String(data.email)
                     .toLowerCase()
-                    .match(
-                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                    )) {
+                    .match(/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm)) {
                     Modal.error({title: "Invalid email type"})
                     return false;
                 }

@@ -3,7 +3,14 @@ import {Avatar, Button, Card, Col, Row} from "antd";
 import {USER_INFO} from "../../const/key_storage";
 import React, {useContext, useEffect, useState} from "react";
 import Transfer from "./Transfer/Transfer";
-import {URL_DEPOSIT, URL_LOAN, URL_SAVING, URL_TRANSFER, URL_WITHDRAW} from "../../const/routing_address";
+import {
+    URL_DEPOSIT,
+    URL_LOAN,
+    URL_SAVING,
+    URL_TRANSACTION_HISTORY,
+    URL_TRANSFER,
+    URL_WITHDRAW
+} from "../../const/routing_address";
 import Deposit from "./Deposit/Deposit";
 import {useHistory} from "react-router-dom";
 import Withdraw from "./Withdraw/Withdraw";
@@ -18,6 +25,7 @@ import {
 import SharedContext from "../../utils/Context";
 import Loan from "./Loan/Loan";
 import Saving from "./Saving/Saving";
+import TransactionHistory from "./TransactionHistory/TransactionHistory";
 
 const FunctionsCard = () => {
     const {userInfo, isSessionExpired, showFooter} = useContext(SharedContext)
@@ -49,6 +57,8 @@ const FunctionsCard = () => {
                         <Loan object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
                     {functionType === URL_SAVING &&
                         <Saving object={{userInfo: userInfo, isSessionExpired: isSessionExpired}}/>}
+                    {functionType === URL_TRANSACTION_HISTORY &&
+                        <TransactionHistory object={{isSessionExpired: isSessionExpired}}/>}
                 </Card>
                 <div style={{paddingTop: 15, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
                     <Row className="menu">
@@ -75,7 +85,7 @@ const FunctionsCard = () => {
 
                         </Col>
                         <Col>
-                            <Button size={"large"}><InteractionFilled/> Transaction
+                            <Button onClick={() => setFunctionType(URL_TRANSACTION_HISTORY)} size={"large"}><InteractionFilled/> Transaction
                                 History</Button>
                         </Col>
                     </Row>

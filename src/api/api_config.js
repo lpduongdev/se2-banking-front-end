@@ -182,7 +182,7 @@ export const transactionCreateSaving = async (object) => await fetch(`${BASE_URL
     })
 })
 
-export const getTransactionsById = async (object) => {
+export const adminGetTransactionById = async (object) => {
     let URL = `/transaction/histories/${object.id}?page=${object.page}&size=${object.size}&sort=${object.sortBy}&type=${object.type}`
     if (!object.type) URL = `/transaction/histories/${object.id}?page=${object.page}&size=${object.size}&sort=${object.sortBy}`
     return await fetch(`${BASE_URL}${URL}`, {
@@ -191,7 +191,7 @@ export const getTransactionsById = async (object) => {
     })
 }
 
-export const getMyTransactionHistory = async (object) => {
+export const userGetMyTransactionLogs = async (object) => {
     let URL = `/transaction/histories/me?page=${object.page}&size=${object.size}&sort=${object.sortBy}&type=${object.type}`
     if (!object.type) URL = `/transaction/histories/me?page=${object.page}&size=${object.size}&sort=${object.sortBy}`
     return await fetch(`${BASE_URL}${URL}`, {
@@ -199,3 +199,9 @@ export const getMyTransactionHistory = async (object) => {
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
     })
 }
+
+
+export const userFindDestinationUser = async (object) => await fetch(`${BASE_URL}/user/findUser?type=${object.type}&value=${object.value}`, {
+        method: "GET",
+        headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
+    })

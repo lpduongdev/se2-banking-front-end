@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {
-    getMyTransactionHistory,
-    getTransactionsById,
+    userGetMyTransactionLogs,
+    adminGetTransactionById,
 } from "../../../api/api_config";
 import {Card, Modal, Table, Tag} from "antd";
 import AnimatedPage from "../../../utils/AnimatedPage";
@@ -30,7 +30,7 @@ const TransactionHistory = (object) => {
         try {
             let res;
             if (id) {
-                res = await getTransactionsById({
+                res = await adminGetTransactionById({
                     id: id,
                     page: page,
                     size: size,
@@ -38,7 +38,7 @@ const TransactionHistory = (object) => {
                     type: TYPE,
                 })
             } else {
-                res = await getMyTransactionHistory({
+                res = await userGetMyTransactionLogs({
                     page: page,
                     size: size,
                     sortBy: SORT_TYPE,

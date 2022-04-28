@@ -1,7 +1,7 @@
 import {Button, Form, Input, InputNumber, Modal, Radio} from "antd";
 import React, {useState} from "react";
 import {USER_INFO} from "../../../const/key_storage";
-import {userGetInfo, transactionTransfer} from "../../../api/api_config";
+import {userGetInfo, transactionTransfer, userFindDestinationUser} from "../../../api/api_config";
 import "../form.css"
 import AnimatedPage from "../../../utils/AnimatedPage";
 
@@ -26,7 +26,7 @@ const Transfer = (object) => {
                             Modal.error({title: "Invalid phone number",})
                             return
                         }
-                        if (type === 'email' && (!receiverEmail || !(new RegExp("/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\\.)+[A-Za-z]+$/\n").test(receiverEmail)))) {
+                        if (type === 'email' && (!String(receiverEmail).toLowerCase().match(/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm))) {
                             Modal.error({title: "Invalid email",})
                             return
                         }
@@ -41,12 +41,21 @@ const Transfer = (object) => {
                                     let formData = new FormData();
                                     formData.append("amount", money + "");
                                     try {
+                                        const findIdRes = await userFindDestinationUser({
+                                            type: type,
+                                            value: type === 'phone' ? receiverPhoneNumber : receiverEmail
+                                        })
+                                        const findId = await findIdRes.json()
+                                        if (!findIdRes.ok) {
+                                            Modal.error({title: findId.message,})
+                                            return
+                                        }
                                         const res = await transactionTransfer({
                                             amount: money,
-                                            toAccount: receiverPhoneNumber
+                                            toAccount: findId.data.id
                                         })
                                         if (!res.ok) Modal.error({
-                                            title: "Can not transfer money!",
+                                            title: (await res.json()).message,
                                             onOk: () => Modal.destroyAll()
                                         })
                                         else {
@@ -83,10 +92,10 @@ const Transfer = (object) => {
                                          setType(e.target.value)
                                      }}>
                             <Radio.Button value="email">Email</Radio.Button>
-                            <Radio.Button value="phoneNumber">Phone number</Radio.Button>
+                            <Radio.Button value="phone">Phone number</Radio.Button>
                         </Radio.Group>
                     </Form.Item>
-                    {type === 'phoneNumber' &&
+                    {type === 'phone' &&
                         <Form.Item>
                             <h3 style={{textAlign: "center"}}>Receiver's phone</h3>
                             <Input style={{width: "100%"}} value={receiverPhoneNumber} autoComplete={"phone"}
