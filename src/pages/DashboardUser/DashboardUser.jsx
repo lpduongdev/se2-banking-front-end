@@ -61,8 +61,8 @@ const DashboardUser = () => {
                         <div className="card-container__balance">
                             <h2>Balance: </h2>
                             <p>{JSON.parse(window.localStorage.getItem(USER_INFO)).balance} VND</p>
-                            <h2>Bank debt: </h2>
-                            <p>0 VND</p>
+                            <h2>Phone number: </h2>
+                            <p>{JSON.parse(window.localStorage.getItem(USER_INFO)).phoneNumber}</p>
                         </div>
                         <div className="card-container__btn-list-user">
                             <Button

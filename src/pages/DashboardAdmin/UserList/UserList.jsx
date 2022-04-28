@@ -200,8 +200,7 @@ const UserList = () => {
                                     }
                                 })
                             }
-                        } catch (e) {
-                            console.log(e)
+                        } catch (TypeError) {
                             Modal.error(
                                 {
                                     title: "Login session expired",

@@ -205,3 +205,13 @@ export const userFindDestinationUser = async (object) => await fetch(`${BASE_URL
         method: "GET",
         headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
     })
+
+export const userWithdrawSaving =  async (object) => await fetch(`${BASE_URL}/transaction/saving/withdraw/${object.id}`, {
+    method: "GET",
+    headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
+})
+
+export const userReturnLoan = async (object) => await fetch(`${BASE_URL}/transaction/loan/return/${object.id}`, {
+    method: "GET",
+    headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
+})

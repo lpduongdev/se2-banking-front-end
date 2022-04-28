@@ -7,7 +7,7 @@ import {
     URL_HOME,
     URL_LOAN,
     URL_LOGIN,
-    URL_SAVING,
+    URL_SAVING, URL_TRANSACTION_HISTORY,
     URL_TRANSFER, URL_USER_DASHBOARD,
     URL_WITHDRAW
 } from "../../const/routing_address";
@@ -38,6 +38,9 @@ const NavigationHeader = () => {
             </Menu.Item>
             <Menu.Item key="4">
                 <NavLink exact to={URL_LOAN}>Money loan</NavLink>
+            </Menu.Item>
+            <Menu.Item key="5">
+                <NavLink exact to={URL_TRANSACTION_HISTORY}>Transaction history</NavLink>
             </Menu.Item>
         </Menu>
     );

@@ -1,5 +1,5 @@
 import AnimatedPage from "../../utils/AnimatedPage";
-import {Avatar, Button, Card, Col, Row} from "antd";
+import {Avatar, Button, Card, Col, Row, Table} from "antd";
 import {USER_INFO} from "../../const/key_storage";
 import React, {useContext, useEffect, useState} from "react";
 import Transfer from "./Transfer/Transfer";
@@ -31,6 +31,11 @@ const FunctionsCard = () => {
     const {userInfo, isSessionExpired, showFooter} = useContext(SharedContext)
     const history = useHistory()
     const [functionType, setFunctionType] = useState(history.location.pathname)
+    const [showNavBar, setShowNavBar] = useState(true)
+    useEffect(() => {
+        if (functionType === URL_SAVING || functionType === URL_LOAN || functionType === URL_TRANSACTION_HISTORY) setShowNavBar(false)
+        else setShowNavBar(true)
+    }, [functionType])
 
     return (
         <AnimatedPage>
@@ -60,7 +65,18 @@ const FunctionsCard = () => {
                     {functionType === URL_TRANSACTION_HISTORY &&
                         <TransactionHistory object={{isSessionExpired: isSessionExpired}}/>}
                 </Card>
-                <div style={{paddingTop: 15, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
+                {functionType === URL_SAVING &&
+                    <Card style={{minWidth: 600, marginTop: 20, textAlign: "center"}} title="Your current saving">
+                        <TransactionHistory object={{isSessionExpired: isSessionExpired, type: "start_saving"}}/>
+                    </Card>
+                }
+                {functionType === URL_LOAN &&
+                    <Card style={{minWidth: 600, marginTop: 20, textAlign: "center"}} title="Your current saving">
+                        <TransactionHistory object={{isSessionExpired: isSessionExpired, type: "start_loan"}}/>
+                    </Card>
+                }
+                <div hidden={!showNavBar}
+                     style={{paddingTop: 15, position: "absolute", bottom: 0, background: "#ffffff", borderRadius: 15}}>
                     <Row className="menu">
                         <Col>
                             <Button onClick={() => setFunctionType(URL_TRANSFER)}
@@ -85,7 +101,8 @@ const FunctionsCard = () => {
 
                         </Col>
                         <Col>
-                            <Button onClick={() => setFunctionType(URL_TRANSACTION_HISTORY)} size={"large"}><InteractionFilled/> Transaction
+                            <Button onClick={() => setFunctionType(URL_TRANSACTION_HISTORY)}
+                                    size={"large"}><InteractionFilled/> Transaction
                                 History</Button>
                         </Col>
                     </Row>

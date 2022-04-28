@@ -10,7 +10,7 @@ import {
     URL_ADMIN_DASHBOARD,
     URL_DEPOSIT,
     URL_HOME, URL_LOAN,
-    URL_LOGIN, URL_SAVING,
+    URL_LOGIN, URL_SAVING, URL_TRANSACTION_HISTORY,
     URL_TRANSFER,
     URL_USER_DASHBOARD,
     URL_WITHDRAW
@@ -91,7 +91,7 @@ function App() {
                         {!token && !userInfo && <Route exact path={URL_LOGIN} component={LoginPage}/>}
                         {token && userInfo && <Route exact path={URL_ADMIN_DASHBOARD} component={DashboardAdmin}/>}
                         {token && userInfo && <Route exact
-                                                     path={[URL_TRANSFER, URL_DEPOSIT, URL_WITHDRAW, URL_WITHDRAW, URL_SAVING, URL_LOAN]}
+                                                     path={[URL_TRANSFER, URL_DEPOSIT, URL_WITHDRAW, URL_WITHDRAW, URL_SAVING, URL_LOAN, URL_TRANSACTION_HISTORY]}
                                                      component={() => (<FunctionsCard object={{
                                                          userInfo: sharedValue.userInfo,
                                                          isSessionExpired: sharedValue.isSessionExpired

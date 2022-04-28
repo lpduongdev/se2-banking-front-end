@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {
     userGetMyTransactionLogs,
-    adminGetTransactionById,
+    adminGetTransactionById, userWithdrawSaving, userGetInfo, userReturnLoan,
 } from "../../../api/api_config";
 import {Card, Modal, Table, Tag} from "antd";
 import AnimatedPage from "../../../utils/AnimatedPage";
@@ -10,7 +10,7 @@ import {useStateIfMounted} from "use-state-if-mounted";
 import {useHistory} from "react-router-dom";
 
 const TransactionHistory = (object) => {
-    const {id, isSessionExpired} = object.object
+    const {id, isSessionExpired, type} = object.object
     const [page, setPage] = useStateIfMounted(0);
     const [size, setSize] = useStateIfMounted(5);
     const [total, setTotal] = useStateIfMounted(0)
@@ -35,14 +35,14 @@ const TransactionHistory = (object) => {
                     page: page,
                     size: size,
                     sortBy: SORT_TYPE,
-                    type: TYPE,
+                    type: type ? type : TYPE,
                 })
             } else {
                 res = await userGetMyTransactionLogs({
                     page: page,
                     size: size,
                     sortBy: SORT_TYPE,
-                    type: TYPE,
+                    type: type ? type : TYPE,
                 })
             }
             const json = await res.json();
@@ -63,7 +63,62 @@ const TransactionHistory = (object) => {
         }
 
     }
+
+    const onWithdrawSaving = async (record) => {
+        Modal.confirm({
+            title: "Are you sure want to withdraw?", onOk: async () => {
+                try {
+                    const res = await userWithdrawSaving({
+                        id: record.saving.id
+                    })
+                    if (!res.ok) Modal.error({title: "Oops", content: (await res.json()).message})
+                    else Modal.success({title: "Delete successfully"})
+                } catch (e) {
+                    Modal.error(
+                        {
+                            title: "Login session expired",
+                            content: "Please login again",
+                            onOk: () => {
+                                isSessionExpired.set(true)
+                            }
+                        },)
+                } finally {
+                    await getPaginationData()
+                    await userGetInfo()
+                }
+            }
+        })
+    }
+
+    const onReturnLoan = (record) => {
+        Modal.confirm({
+            title: "Are you sure want to return loan?", onOk: async () => {
+                try {
+                    const res = await userReturnLoan({
+                        id: record.loan.id
+                    })
+                    if (!res.ok) Modal.error({title: "Oops", content: (await res.json()).message})
+                    else Modal.success({title: "Return loan successfully"})
+                } catch (e) {
+                    Modal.error(
+                        {
+                            title: "Login session expired",
+                            content: "Please login again",
+                            onOk: () => {
+                                isSessionExpired.set(true)
+                            }
+                        },)
+                } finally {
+                    await getPaginationData()
+                    await userGetInfo()
+                }
+            }
+        })
+    }
+
+
     const childStyle = {display: "flex", flexDirection: "row", alignItems: "center", fontSize: "1.0rem"}
+
 
     return (
         <AnimatedPage>
@@ -91,13 +146,15 @@ const TransactionHistory = (object) => {
                                     <div style={childStyle}><p>Withdraw </p><p style={{
                                         color: 'red',
                                         fontWeight: "bold"
-                                    }}>&nbsp;${(record.balanceBefore - record.balanceAfter).toFixed(2)}&nbsp;</p><p>from your account</p>
+                                    }}>&nbsp;${(record.balanceBefore - record.balanceAfter).toFixed(2)}&nbsp;</p><p>from
+                                        your account</p>
                                     </div>)
                                 if (record.transactionType === "deposit") component = (
                                     <div style={childStyle}><p>Deposit</p><p style={{
                                         color: 'green',
                                         fontWeight: "bold"
-                                    }}>&nbsp;${(record.balanceAfter - record.balanceBefore).toFixed(2)}&nbsp;</p><p> to your account</p></div>)
+                                    }}>&nbsp;${(record.balanceAfter - record.balanceBefore).toFixed(2)}&nbsp;</p><p> to
+                                        your account</p></div>)
                                 if (record.transactionType === "send_transfer") component = (<div style={childStyle}>
                                     <p>Sent </p><p style={{
                                     color: 'red',
@@ -117,15 +174,22 @@ const TransactionHistory = (object) => {
                                     <div style={childStyle}><p>Created a saving with amount</p><p style={{
                                         color: 'red',
                                         fontWeight: "bold"
-                                    }}>&nbsp;${(record.balanceBefore - record.balanceAfter).toFixed(2)}&nbsp;</p><p> with
-                                        duration {millisecondsToDate(record.saving.endTime - record.saving.startTime)} days
-                                    </p></div>)
+                                    }}>&nbsp;${(record.balanceBefore - record.balanceAfter).toFixed(2)}&nbsp;</p>
+                                        <p> with
+                                            duration {millisecondsToDate(record.saving.endTime - record.saving.startTime)} days
+                                        </p>{record.saving.status === "completed" ?
+                                            <p style={{color: 'green'}}>&nbsp;[COMPLETED]</p> :
+                                            <p><a onClick={() => onWithdrawSaving(record)}>&nbsp;(Withdraw)</a></p>}
+                                    </div>)
                                 if (record.transactionType === "start_loan") component = (
                                     <div style={childStyle}><p>Created a loan with amount</p><p style={{
                                         color: 'green',
                                         fontWeight: "bold"
                                     }}>&nbsp;${(record.balanceAfter - record.balanceBefore).toFixed(2)}&nbsp;</p><p>with
                                         duration {millisecondsToDate(record.loan.endTime - record.loan.startTime)}</p>
+                                        {record.loan.status === "completed" ?
+                                        <p style={{color: 'green'}}>&nbsp;[COMPLETED]</p> :
+                                        <p><a onClick={() => onReturnLoan(record)}>&nbsp;(Return loan)</a></p>}
                                     </div>)
                                 return <>{component}</>
                             }
