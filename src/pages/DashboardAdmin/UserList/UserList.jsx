@@ -13,20 +13,21 @@ import SharedContext from "../../../utils/Context";
 import {USER_INFO} from "../../../const/key_storage";
 import AnimatedPage from "../../../utils/AnimatedPage";
 import TransactionHistory from "../../Functions/TransactionHistory/TransactionHistory";
+import {useStateIfMounted} from "use-state-if-mounted";
 
 
 const UserList = () => {
     const {userInfo, isSessionExpired} = useContext(SharedContext)
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useStateIfMounted(0);
     const [size, setSize] = useState(5);
-    const [total, setTotal] = useState(0)
-    const [users, setUsers] = useState([])
+    const [total, setTotal] = useStateIfMounted(0)
+    const [users, setUsers] = useStateIfMounted([])
     const [isLoading, setIsLoading] = useState(false)
 
     const SORT_TYPE = "id,asc"
 
     useEffect(() => {
-        getPaginationData().then(r => console.log(r))
+        getPaginationData().then()
     }, [page])
 
     const getPaginationData = async () => {
@@ -118,11 +119,12 @@ const UserList = () => {
                         //**********************  CREATING ACCOUNT  **************************//
                         let registerAccountResponse = null;
 
+                        try {
                         if (data.code) registerAccountResponse = await registerAdmin({
                             phoneNumber: data.phoneNumber,
                             password: data.password,
                             code: data.code,
-                        });
+                        })
                         else
                             registerAccountResponse = await registerUser({
                                 phoneNumber: data.phoneNumber,
@@ -189,6 +191,16 @@ const UserList = () => {
                                 content: "Created new user account successfully!",
                                 onOk: () => Modal.destroyAll()
                             })
+                        } catch (TypeError) {
+                            Modal.error(
+                                {
+                                    title: "Login session expired",
+                                    content: "Please login again",
+                                    onOk: () => {
+                                        isSessionExpired.set(true)
+                                    }
+                                },)
+                        }
                         isSubmitting = false
                     }}
                     autoComplete="on">
@@ -551,7 +563,7 @@ const UserList = () => {
                                         }>
                                         <a className="ant-dropdown-link"
                                            onClick={e => e.preventDefault()}>
-                                            Edit
+                                            Actions
                                         </a>
                                     </Dropdown>
                                     <a onClick={() => onDeleteUser(record.id)}>Delete</a>
