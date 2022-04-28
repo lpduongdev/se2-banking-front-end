@@ -30,10 +30,14 @@ const Deposit = (object) => {
                                 try {
                                     const res = await transactionDeposit({formData: formData})
 
-                                    if (!res.ok) Modal.error({
-                                        title: "Can not deposit money!",
-                                        onOk: () => Modal.destroyAll()
-                                    })
+                                    if (!res.ok) {
+                                        Modal.destroyAll()
+                                        Modal.error({
+                                            title: "Can not deposit money!",
+                                            onOk: () => {}
+                                        })
+                                        return
+                                    }
                                     else {
                                         const newUserInfo = await (await userGetInfo()).json()
                                         window.localStorage.setItem(USER_INFO, JSON.stringify(newUserInfo.data))
