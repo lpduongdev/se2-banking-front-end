@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Card, Button, Modal, Table, Space, Form, Input, InputNumber, Dropdown, Menu} from "antd";
+import {Card, Button, Modal, Table, Space, Form, Input, InputNumber, Dropdown, Menu, Tag} from "antd";
 import {
     adminDeleteUser,
     adminGetPageableUser,
@@ -12,6 +12,7 @@ import "../Form.css"
 import SharedContext from "../../../utils/Context";
 import {USER_INFO} from "../../../const/key_storage";
 import AnimatedPage from "../../../utils/AnimatedPage";
+import TransactionHistory from "./TransactionHistory";
 
 
 const UserList = () => {
@@ -459,11 +460,22 @@ const UserList = () => {
         })
     }
 
+    const onViewTransactionHistory = (id) => {
+        Modal.info({
+            centered: true,
+            icon: <div/>,
+            width: 900,
+            okButtonProps: {style: {display: "none"}},
+            closable: true,
+            content: (<TransactionHistory object={{id: id, isSessionExpired: isSessionExpired}}/>)
+        })
+    }
+
     return (
         <AnimatedPage>
             <Card headStyle={{textAlign: "center", fontWeight: "bold"}} title="User list" bordered={false}
                   style={{width: "100%"}}>
-                <Button shape={['round']} style={{marginBottom: 30}} type="primary" onClick={onAddUser}>Add new
+                <Button shape={'round'} style={{marginBottom: 30}} type="primary" onClick={onAddUser}>Add new
                     user</Button>
                 <Table
                     loading={isLoading}
@@ -531,6 +543,9 @@ const UserList = () => {
                                                 </Menu.Item>
                                                 <Menu.Item onClick={() => onChangeBalance(record)} key="1">
                                                     Adjust balance
+                                                </Menu.Item>
+                                                <Menu.Item onClick={() => onViewTransactionHistory(record.id)} key='2'>
+                                                    View transaction history
                                                 </Menu.Item>
                                             </Menu>
                                         }>

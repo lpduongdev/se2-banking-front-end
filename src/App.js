@@ -22,6 +22,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import NavigationHeader from "./components/NavigationHeader/NavigationHeader";
 import FunctionsCard from "./pages/Functions/FunctionsCard";
 import AboutUs from "./pages/AboutUs/AboutUs";
+import {Modal} from "antd";
 
 function App() {
     const [isAdmin, setIsAdmin] = useState(false)
@@ -41,6 +42,7 @@ function App() {
             setUserInfo("")
             setIsAdmin(false)
             setIsSessionExpired(false)
+            Modal.destroyAll()
         }
     }, [isSessionExpired])
 

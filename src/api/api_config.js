@@ -181,3 +181,12 @@ export const transactionCreateSaving = async (object) => await fetch(`${BASE_URL
         interestId: object.interestId
     })
 })
+
+export const getTransactionsById = async (object) => {
+    let URL = `/transaction/histories/${object.id}?page=${object.page}&size=${object.size}&sort=${object.sortBy}&type=${object.type}`
+    if (!object.type) URL = `/transaction/histories/${object.id}?page=${object.page}&size=${object.size}&sort=${object.sortBy}`
+    return await fetch(`${BASE_URL}${URL}`, {
+        method: "GET",
+        headers: {"Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`}
+    })
+}

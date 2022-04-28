@@ -294,7 +294,7 @@ const InterestManagement = () => {
         <AnimatedPage>
             <Card headStyle={{textAlign: "center", fontWeight: "bold"}} title="Interest management" bordered={false}
                   style={{width: "100%"}}>
-                <Button shape={['round']} style={{marginBottom: 30}} type="primary" onClick={onAddInterest}>Add new
+                <Button shape={'round'} style={{marginBottom: 30}} type="primary" onClick={onAddInterest}>Add new
                     interest</Button>
                 <Table
                     loading={isLoading}
