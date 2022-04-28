@@ -130,13 +130,15 @@ const UserList = () => {
                                     phoneNumber: data.phoneNumber,
                                     password: data.password,
                                 })
-
-                            if (!registerAccountResponse.ok || registerAccountResponse.status === 400) {
+                            console.log(registerAccountResponse)
+                            if (!registerAccountResponse.ok) {
+                                Modal.destroyAll()
                                 Modal.error({
                                     title: 'Oops',
                                     content: (await registerAccountResponse.json()).message,
-                                    onOk: () => Modal.destroyAll()
+                                    onOk: () => {}
                                 })
+                                return
                             }
 
                             const registerAccountResponseJSON = await registerAccountResponse.json()
@@ -155,13 +157,13 @@ const UserList = () => {
 
                             if (!updateUserInfoResponse.ok || updateUserInfoResponse.status === 400) {
                                 isUpdatedInfo = false
+                                Modal.destroyAll()
                                 Modal.error({
                                     title: 'Oops',
                                     content: (await updateUserInfoResponse.json()).message,
                                     onOk: async () => {
                                         await adminDeleteUser(registerAccountResponseJSON.data.id)
                                         await getPaginationData();
-                                        Modal.destroyAll()
                                     },
                                 })
                             }
@@ -177,21 +179,29 @@ const UserList = () => {
                                 data: formData,
                             })
 
-                            if (!updateBalanceResponse.ok)
+                            if (!updateBalanceResponse.ok) {
+                                Modal.destroyAll()
                                 Modal.error({
                                     title: "Oops",
                                     content: "Please check your balance value and change it later"
-                                    , onOk: () => Modal.destroyAll()
+                                    , onOk: () => {
+                                    }
                                 })
+                                return
+                            }
                             //************************************************************************//
                             await getPaginationData()
-                            if (isUpdatedInfo)
+                            if (isUpdatedInfo) {
+                                Modal.destroyAll()
                                 Modal.success({
                                     title: "Completed",
                                     content: "Created new user account successfully!",
-                                    onOk: () => Modal.destroyAll()
+                                    onOk: () => {
+                                    }
                                 })
-                        } catch (TypeError) {
+                            }
+                        } catch (e) {
+                            console.log(e)
                             Modal.error(
                                 {
                                     title: "Login session expired",
@@ -527,6 +537,7 @@ const UserList = () => {
                             title: 'Balance',
                             dataIndex: 'balance',
                             key: 'balance',
+                            render: text => text.toFixed(2)
                         },
                         {
                             title: 'First name',

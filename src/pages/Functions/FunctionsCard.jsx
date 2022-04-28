@@ -44,7 +44,7 @@ const FunctionsCard = () => {
                         </div>
                         <div className="user-info__balance">
                             <h2>Balance: </h2>
-                            <p>{JSON.parse(window.localStorage.getItem(USER_INFO)).balance} VND</p>
+                            <p>${JSON.parse(window.localStorage.getItem(USER_INFO)).balance.toFixed(2)}</p>
                         </div>
                     </div>
                     {functionType === URL_TRANSFER &&
