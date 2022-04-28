@@ -70,10 +70,15 @@ const NavigationHeader = () => {
                             if (!res.ok) Modal.error({title: "Error", content: "Nothing changed!"})
                             else {
                                 const json = await res.json()
-                                if (json.status === 0) Modal.success({
-                                    title: "Edit successfully",
-                                    onOk: () => Modal.destroyAll()
-                                })
+                                if (json.status === 0) {
+                                    Modal.success({
+                                        title: "Edit successfully",
+                                        onOk: () => Modal.destroyAll()
+                                    })
+                                }
+                                const jsonInfo = await (await userGetInfo()).json()
+                                userInfo.set(JSON.stringify(jsonInfo.data))
+                                window.localStorage.setItem(USER_INFO, JSON.stringify(jsonInfo.data))
                             }
                         } catch (TypeError) {
                             Modal.error(
@@ -84,10 +89,6 @@ const NavigationHeader = () => {
                                         isSessionExpired.set(true)
                                     }
                                 },)
-                        } finally {
-                            const json = await (await userGetInfo()).json()
-                            userInfo.set(JSON.stringify(json))
-                            window.localStorage.setItem(USER_INFO, JSON.stringify(json))
                         }
                     }}>
                     <Form.Item
@@ -215,7 +216,9 @@ const NavigationHeader = () => {
                                      to={isAdmin.get ? URL_ADMIN_DASHBOARD : URL_USER_DASHBOARD}>
                                 <Meta
                                     avatar={<Avatar
-                                        src={JSON.parse(window.localStorage.getItem(USER_INFO)).user.avatar !== null ? JSON.parse(window.localStorage.getItem(USER_INFO)).user.avatar : "https://joeschmoe.io/api/v1/random"}/>}
+                                        src={JSON.parse(window.localStorage.getItem(USER_INFO))?
+                                            JSON.parse(window.localStorage.getItem(USER_INFO)).user.avatar
+                                            : "https://joeschmoe.io/api/v1/random"}/>}
                                     title={JSON.parse(window.localStorage.getItem(USER_INFO)).user.firstName}/>
                             </NavLink>
                         </Dropdown>}
