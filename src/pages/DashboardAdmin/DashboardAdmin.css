@@ -1,0 +1,44 @@
+.base {
+  padding: 12% 40px;
+}
+.img-crop-modal .img-crop-control {
+  height: auto;
+  width: auto;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card-container__meta  {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-container__meta h2 {
+  padding-top: 15px;
+  font-weight: bold;
+}
+
+.card-container__balance {
+  flex-grow: 4;
+}
+
+.card-container__balance h2 {
+  font-weight: bold;
+}
+
+.card-container__btn-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
