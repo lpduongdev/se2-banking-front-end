@@ -60,7 +60,7 @@ const DashboardUser = () => {
                         </div>
                         <div className="card-container__balance">
                             <h2>Balance: </h2>
-                            <p>{JSON.parse(window.localStorage.getItem(USER_INFO)).balance} VND</p>
+                            <p>${JSON.parse(window.localStorage.getItem(USER_INFO)).balance}</p>
                             <h2>Phone number: </h2>
                             <p>{JSON.parse(window.localStorage.getItem(USER_INFO)).phoneNumber}</p>
                         </div>
