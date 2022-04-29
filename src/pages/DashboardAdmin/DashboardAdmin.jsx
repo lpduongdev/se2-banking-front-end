@@ -75,7 +75,7 @@ const DashboardUser = () => {
                                         }
                                         let isSubmitting = false
                                         Modal.info({
-                                            title: "Adjust balance",
+                                            title: "Change account password",
                                             centered: true,
                                             width: 600,
                                             icon: <div/>,
