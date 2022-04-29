@@ -385,7 +385,7 @@ const UserList = () => {
                             email: inputData.email,
                             address: inputData.address,
                         })
-                        if (!res.ok) Modal.error({title: "Error", content: "Nothing changed!"})
+                        if (!res.ok) Modal.error({title: "Error", content: (await res.json()).message})
                         else {
                             const json = await res.json()
                             if (json.status === 0) Modal.success({

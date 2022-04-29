@@ -162,6 +162,12 @@ const NavigationHeader = () => {
             </Menu.Item>
         </Menu>)
 
+    const getUserAvatar = () => {
+        if (JSON.parse(window.localStorage.getItem(USER_INFO)))
+            return JSON.parse(window.localStorage.getItem(USER_INFO)).user.avatar
+        return "https://joeschmoe.io/api/v1/random";
+    }
+
     return (
         <Header style={{
             background: "#ffffff",
@@ -216,9 +222,7 @@ const NavigationHeader = () => {
                                      to={isAdmin.get ? URL_ADMIN_DASHBOARD : URL_USER_DASHBOARD}>
                                 <Meta
                                     avatar={<Avatar
-                                        src={JSON.parse(window.localStorage.getItem(USER_INFO))?
-                                            JSON.parse(window.localStorage.getItem(USER_INFO)).user.avatar
-                                            : "https://joeschmoe.io/api/v1/random"}/>}
+                                        src={getUserAvatar()}/>}
                                     title={JSON.parse(window.localStorage.getItem(USER_INFO)).user.firstName}/>
                             </NavLink>
                         </Dropdown>}

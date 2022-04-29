@@ -48,7 +48,7 @@ export const userGetInfo = async () => await fetch(`${BASE_URL}/user/me`, {
 
 export const userUpdateUserInfo = async (object) => await fetch(`${BASE_URL}/user/update/${object.id}`, {
     method: "POST",
-    headers: {"Content-Type": "application/json", "Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`},
+    headers: {"Content-Type": "application/json", "Authorization": `Bearer ${object.token? object.token: window.localStorage.getItem(TOKEN)}`},
     body: JSON.stringify({
         firstName: object.firstName,
         lastName: object.lastName,
@@ -75,7 +75,7 @@ export const adminSetBalance = async (object) =>
     await fetch(`${BASE_URL}/user/${object.id}/balance`, {
         method: 'PATCH',
         headers: {
-            "Authorization": `Bearer ${window.localStorage.getItem(TOKEN)}`
+            "Authorization": `Bearer ${object.token? object.token : window.localStorage.getItem(TOKEN)}`
         },
         body: object.data,
     })

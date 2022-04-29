@@ -219,22 +219,31 @@ const LoginPage = () => {
                         let isUpdatedInfo = true;
 
                         //**********************  CREATING ACCOUNT  **************************//
+                        try {
 
-                        const registerAccountResponse = await registerAdmin({
-                            phoneNumber: data.phoneNumber,
-                            password: data.password,
-                            code: data.code,
-                        });
+                            const registerAccountResponse = await registerAdmin({
+                                phoneNumber: data.phoneNumber,
+                                password: data.password,
+                                code: data.code,
+                            });
 
-                        if (!registerAccountResponse.ok || registerAccountResponse.status === 400) {
-                            Modal.error({
-                                title: 'Error',
-                                content: (await registerAccountResponse.json()).message,
-                                onOk: () => Modal.destroyAll()
-                            })
-                        } else {
+
+
+                            if (!registerAccountResponse.ok) {
+                                Modal.error({
+                                    title: 'Error',
+                                    content: (await registerAccountResponse.json()).message,
+                                    onOk: () => Modal.destroyAll()
+                                })
+                                return
+                            }
 
                             const registerAccountResponseJSON = await registerAccountResponse.json()
+
+                            const token = (await (await login({
+                                phoneNumber: data.phoneNumber,
+                                password: data.password
+                            })).json()).data
                             //************************************************************************//
 
 
@@ -245,21 +254,20 @@ const LoginPage = () => {
                                 lastName: data.lastName,
                                 email: data.email,
                                 address: data.address,
-                                citizenIdentification: data.citizenIdentification
+                                citizenIdentification: data.citizenIdentification,
+                                token: token,
                             })
 
-                            if (!updateUserInfoResponse.ok || updateUserInfoResponse.status === 400) {
-                                isUpdatedInfo = false
+                            if (!updateUserInfoResponse.ok) {
                                 Modal.error({
                                     title: 'Oops',
                                     content: (await updateUserInfoResponse.json()).message,
                                     onOk: async () => {
-                                        await adminDeleteUser(registerAccountResponseJSON.data.id)
                                         Modal.destroyAll()
                                     },
                                 })
+                                return
                             }
-
                             //************************************************************************//
 
 
@@ -269,14 +277,17 @@ const LoginPage = () => {
                             const updateBalanceResponse = await adminSetBalance({
                                 id: registerAccountResponseJSON.data.id,
                                 data: formData,
+                                token: token,
                             })
 
-                            if (!updateBalanceResponse.ok)
+                            if (!updateBalanceResponse.ok) {
                                 Modal.error({
                                     title: "Oops",
                                     content: "Please check your balance value and change it later"
                                     , onOk: () => Modal.destroyAll()
                                 })
+                                return
+                            }
                             //************************************************************************//
                             if (isUpdatedInfo)
                                 Modal.success({
@@ -285,6 +296,16 @@ const LoginPage = () => {
                                     onOk: () => Modal.destroyAll()
                                 })
                             isSubmitting = false
+
+                        } catch (TypeError) {
+                            Modal.error(
+                                {
+                                    title: "Error",
+                                    content: "Failed when communicate with API",
+                                    onOk: () => {
+                                        Modal.destroyAll()
+                                    }
+                                },)
                         }
                     }}
                     autoComplete="on">
