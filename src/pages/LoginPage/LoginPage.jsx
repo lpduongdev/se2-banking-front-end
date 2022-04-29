@@ -202,7 +202,7 @@ const LoginPage = () => {
         }
         let isSubmitting = false
         Modal.info({
-            title: "Add new user",
+            title: "Register account",
             width: 600,
             icon: <div/>,
             centered: true,
