@@ -228,7 +228,7 @@ const InterestManagement = () => {
                             id: data.id,
                             rate: data.rate,
                             instantRate: data.instantRate,
-                            duration: data.duration,
+                            duration: dateToMilliseconds(data.duration),
                             type: data.type
                         })
                         if (!res.ok) Modal.error({title: "Error", content: "Nothing changed!"})
