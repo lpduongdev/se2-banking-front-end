@@ -154,31 +154,30 @@ const LoginPage = () => {
                 }
             }
             if (item === "password") {
-                const p = data.password,
-                    errors = [];
-                if (p.length < 8) {
-                    errors.push("Your password must be at least 8 characters");
-                }
-                if (p.search(/[a-z]/i) < 0) {
-                    errors.push("Your password must contain at least one letter.");
-                }
-                if (p.search(/[0-9]/) < 0) {
-                    errors.push("Your password must contain at least one digit.");
-                }
-                if (errors.length > 0) {
-                    Modal.error({content: errors.join("\n")});
-                    return false;
-                }
+                // const p = data.password,
+                //     errors = [];
+                // if (p.length < 8) {
+                //     errors.push("Your password must be at least 8 characters");
+                // }
+                // if (p.search(/[a-z]/i) < 0) {
+                //     errors.push("Your password must contain at least one letter.");
+                // }
+                // if (p.search(/[0-9]/) < 0) {
+                //     errors.push("Your password must contain at least one digit.");
+                // }
+                // if (errors.length > 0) {
+                //     Modal.error({content: errors.join("\n")});
+                //     return false;
+                // }
                 if (data.password !== data.passwordConfirm) {
                     Modal.error({title: "Your password confirm doesn't match"})
                     return false;
                 }
-            }
-            if (item === "email") {
-                if (!String(data.email)
-                    .toLowerCase()
-                    .match(/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm)) {
-                    Modal.error({title: "Invalid email type"})
+                if (!(new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$").test(data.password))) {
+                    Modal.error({
+                        title: 'Oops',
+                        content: "Your password isn't strong enough"
+                    });
                     return false;
                 }
             }

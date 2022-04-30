@@ -136,7 +136,8 @@ const UserList = () => {
                                 Modal.error({
                                     title: 'Oops',
                                     content: (await registerAccountResponse.json()).message,
-                                    onOk: () => {}
+                                    onOk: () => {
+                                    }
                                 })
                                 return
                             }
@@ -306,58 +307,42 @@ const UserList = () => {
         for (const item in data) {
             if (item === "phoneNumber") {
                 if (!(new RegExp("^(\\+\\d)?\\d{10}$").test(data.phoneNumber))) {
-                    Modal.error({
-                        title: 'Oops',
-                        content: "Invalid phone number"
-                    })
+                    Modal.error({title: "Phone length must higher than 8"})
                     return false;
                 }
 
             }
             if (item === "balance") {
                 if (data.balance < 0) {
-                    Modal.error({
-                        title: 'Oops',
-                        content: "Invalid initial balance"
-                    })
+                    Modal.error({title: "Invalid initial balance"})
                     return false;
                 }
             }
             if (item === "password") {
-                const p = data.password,
-                    errors = [];
-                if (p.length < 8) {
-                    errors.push("Your password must be at least 8 characters");
-                }
-                if (p.search(/[a-z]/i) < 0) {
-                    errors.push("Your password must contain at least one letter.");
-                }
-                if (p.search(/[0-9]/) < 0) {
-                    errors.push("Your password must contain at least one digit.");
-                }
-                if (errors.length > 0) {
-                    Modal.error({
-                        title: 'Oops',
-                        content: errors.join("\n")
-                    });
-                    return false;
-                }
+                // const p = data.password,
+                //     errors = [];
+                // if (p.length < 8) {
+                //     errors.push("Your password must be at least 8 characters");
+                // }
+                // if (p.search(/[a-z]/i) < 0) {
+                //     errors.push("Your password must contain at least one letter.");
+                // }
+                // if (p.search(/[0-9]/) < 0) {
+                //     errors.push("Your password must contain at least one digit.");
+                // }
+                // if (errors.length > 0) {
+                //     Modal.error({content: errors.join("\n")});
+                //     return false;
+                // }
                 if (data.password !== data.passwordConfirm) {
-                    Modal.error({
-                        title: 'Oops',
-                        content: "Your password confirm doesn't match"
-                    })
+                    Modal.error({title: "Your password confirm doesn't match"})
                     return false;
                 }
-            }
-            if (item === "email") {
-                if (!String(data.email)
-                    .toLowerCase()
-                    .match(/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm)) {
+                if (!(new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$").test(data.password))) {
                     Modal.error({
                         title: 'Oops',
-                        content: "Invalid email type"
-                    })
+                        content: "Your password isn't strong enough"
+                    });
                     return false;
                 }
             }

@@ -1,6 +1,7 @@
 import {TOKEN} from "../const/key_storage";
 
-export const BASE_URL = 'https://e-banking-2022-backend.herokuapp.com/api/v1'
+export const BASE_URL = 'http://localhost:8080/api/v1'
+// export const BASE_URL = 'https://e-banking-2022-backend.herokuapp.com/api/v1'
 
 
 export const login = async (accountDto) => await fetch(`${BASE_URL}/auth/login`, {
