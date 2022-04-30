@@ -225,6 +225,7 @@ const InterestManagement = () => {
                     initialValues={{remember: true}}
                     onFinish={async () => {
                         const res = await interestUpdateRate({
+                            id: data.id,
                             rate: data.rate,
                             instantRate: data.instantRate,
                             duration: data.duration,
