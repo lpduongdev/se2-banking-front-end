@@ -14,6 +14,7 @@ const Loan = (object) => {
     const [planList, setPlanList] = useStateIfMounted({})
     const [planType, setPlanType] = useState("")
     const [isLoadedData, setIsLoadedData] = useState(false)
+    const [isEmptyPlanList, setIsEmptyPlanList] = useState(false)
 
     const history = useHistory();
 
@@ -34,6 +35,12 @@ const Loan = (object) => {
                 })
                 else {
                     const json = await res.json()
+                    console.log(json)
+                    if (json.data.content.length === 0) {
+                        setIsEmptyPlanList(true)
+                    } else {
+                        setIsEmptyPlanList(false)
+                    }
                     setPlanList(json.data.content)
                     setIsLoadedData(true)
                 }
@@ -92,6 +99,7 @@ const Loan = (object) => {
                             }}>
                             <Form.Item>
                                 <h2 style={{textAlign: "center"}}>Plan list</h2>
+                                {isEmptyPlanList && <p>Sorry, there is no plan current in our bank</p>}
 
                                 <Radio.Group style={{display: "flex", justifyContent: "center", alignItems: "center"}}
                                              onChange={(e) => {
