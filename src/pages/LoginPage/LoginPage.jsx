@@ -154,21 +154,6 @@ const LoginPage = () => {
                 }
             }
             if (item === "password") {
-                // const p = data.password,
-                //     errors = [];
-                // if (p.length < 8) {
-                //     errors.push("Your password must be at least 8 characters");
-                // }
-                // if (p.search(/[a-z]/i) < 0) {
-                //     errors.push("Your password must contain at least one letter.");
-                // }
-                // if (p.search(/[0-9]/) < 0) {
-                //     errors.push("Your password must contain at least one digit.");
-                // }
-                // if (errors.length > 0) {
-                //     Modal.error({content: errors.join("\n")});
-                //     return false;
-                // }
                 if (data.password !== data.passwordConfirm) {
                     Modal.error({title: "Your password confirm doesn't match"})
                     return false;

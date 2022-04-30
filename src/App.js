@@ -50,7 +50,6 @@ function App() {
         const localToken = window.localStorage.getItem(TOKEN);
         const localUserInfo = window.localStorage.getItem(USER_INFO)
         const localIsAdmin = window.localStorage.getItem(IS_ADMIN)
-        console.log("token: " + localToken + "\nUserInfo: " + localUserInfo + "\nisAdmin: " + localIsAdmin)
         if (localToken) setToken(localToken)
         if (localUserInfo) setUserInfo(userInfo)
         if (localIsAdmin) setIsAdmin(localIsAdmin === "true")

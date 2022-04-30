@@ -7,7 +7,6 @@ import {Card, Modal, Table, Tag} from "antd";
 import AnimatedPage from "../../../utils/AnimatedPage";
 import {millisecondsToDate} from "../../../utils/DateTimeConverter";
 import {useStateIfMounted} from "use-state-if-mounted";
-import {useHistory} from "react-router-dom";
 
 const TransactionHistory = (object) => {
     const {id, isSessionExpired, type} = object.object
@@ -20,7 +19,6 @@ const TransactionHistory = (object) => {
     const SORT_TYPE = "id,asc"
     const TYPE = ""
 
-    const history = useHistory()
     useEffect(() => {
         getPaginationData().then()
     }, [page])

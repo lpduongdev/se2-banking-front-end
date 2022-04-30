@@ -130,7 +130,6 @@ const UserList = () => {
                                     phoneNumber: data.phoneNumber,
                                     password: data.password,
                                 })
-                            console.log(registerAccountResponse)
                             if (!registerAccountResponse.ok) {
                                 Modal.destroyAll()
                                 Modal.error({

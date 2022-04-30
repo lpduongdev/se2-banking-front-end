@@ -35,7 +35,6 @@ const Loan = (object) => {
                 })
                 else {
                     const json = await res.json()
-                    console.log(json)
                     if (json.data.content.length === 0) {
                         setIsEmptyPlanList(true)
                     } else {
