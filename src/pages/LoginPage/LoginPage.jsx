@@ -73,7 +73,7 @@ const LoginPage = () => {
             if (!res.ok) {
                 Modal.warning({
                     title: 'Oops',
-                    content: "Wrong username or phone number",
+                    content: "Wrong phone number or password",
                     onOk() {
                     },
                 })
