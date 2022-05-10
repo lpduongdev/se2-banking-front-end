@@ -4,13 +4,13 @@ import {HeartFilled} from "@ant-design/icons";
 
 const AboutUs = () => {
     const avatarSize = 150;
-    const av_link_Rain = "https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/259701892_1517597695284026_5695865707447278538_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=PDsYv-N-yCoAX9Fv1vG&_nc_ht=scontent.fhan14-1.fna&oh=00_AT8eIrUwV1afC-2tD3DmgCtUYfdbu9zL9jFKPVvj3RqAUw&oe=626D6D58"
-    const av_link_Nguyen = "https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/278874685_1135040180400718_4126958879824789687_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=50-HdQcL5D0AX-B0M6L&_nc_ht=scontent.fhan14-1.fna&oh=00_AT-iNgx8nT3SspcF3ZcUXquEYeysavDBul549tgWA-6APA&oe=626D576C"
-    const av_link_Hoang = "https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-1/250384514_1521603584874056_788867112344299795_n.jpg?stp=dst-jpg_p320x320&_nc_cat=109&ccb=1-5&_nc_sid=7206a8&_nc_ohc=4QkwefRwQA8AX-hK2Eq&_nc_ht=scontent.fhan14-2.fna&oh=00_AT8-QFwVbXQpruT4l9wBUw1FowuJQSqNvhGuVj_mlKdVIQ&oe=626DDCDF"
-    const av_link_Long = "https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-6/267471846_1278910755944693_5349516526072707348_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=xxAk6rAtcxAAX_6z9my&tn=XjtFvAqPi_QGAbRe&_nc_ht=scontent.fhan14-2.fna&oh=00_AT-vuCJngYBoalEW0GtZBtYLHUAra5FMgz6ZCze_fSscFQ&oe=626C8486"
-    const av_link_Huy = "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-1/176994343_799982227282375_7484063102971262848_n.jpg?stp=c0.71.320.320a_dst-jpg_p320x320&_nc_cat=109&ccb=1-5&_nc_sid=7206a8&_nc_ohc=umeekHf0i9gAX-8BHfR&_nc_ht=scontent.fhan14-2.fna&oh=00_AT_-HCZTLGK1l7X3WZ4Dlr31tiNoWP5Wljo7w-1h0mL_GQ&oe=628DA7BD"
-    const av_link_Linh = "https://scontent.fhan14-1.fna.fbcdn.net/v/t1.6435-1/61488237_100711997861208_5639780719552102400_n.jpg?stp=dst-jpg_p320x320&_nc_cat=110&ccb=1-5&_nc_sid=7206a8&_nc_ohc=sgJ8XWtvTWoAX8ROZc8&tn=XjtFvAqPi_QGAbRe&_nc_ht=scontent.fhan14-1.fna&oh=00_AT8IhT9F8SgWlkvGgfJaSTPJuRnqUd12iQ2D1AG9PDW2ug&oe=628FA460"
-    const av_link_Duy = "https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-6/240510817_2690215377951422_2520172288256302349_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeEz4IakfP6oNK2SPQMRoGu4CM2sTxa9Kh4IzaxPFr0qHhpbOFmj769F3W2EtRq5AG8oePVGeUcAydG2ZDlnzMt_&_nc_ohc=CgvhSCuLRxwAX-gu-Vc&_nc_ht=scontent.fhan14-2.fna&oh=00_AT-VLmR-A-i02ilvZBvbIMVGJadAuxBGVMGG5CVeIcEmXA&oe=6272569D"
+    const av_link_Rain = "https://i.ibb.co/SmHGM1F/Rain.jpg"
+    const av_link_Nguyen = "https://i.ibb.co/DKBT7sy/NT.jpg"
+    const av_link_Hoang = "https://i.ibb.co/HtB99r5/Hoang.jpg"
+    const av_link_Long = "https://i.ibb.co/ZfR00Br/Long.jpg"
+    const av_link_Huy = "https://i.ibb.co/b39qbt4/Huy.jpg"
+    const av_link_Linh = "https://i.ibb.co/2FN5dcM/Linh.jpg"
+    const av_link_Duy = "https://i.ibb.co/nrpkdjc/Duy.jpg"
 
     return (
         <div className="base-about-us">
